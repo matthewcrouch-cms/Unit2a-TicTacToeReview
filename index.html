@@ -1,828 +1,453 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Review Hub: Unit 2a (Part 1)</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 2a Quiz Review</title>
 <style>
 :root{
-  --bg:#F2F7FB; --surface:#FFFFFF; --surface-2:#E9F1F8; --ink:#12263F; --muted:#485D77; --line:#CFDDEA;
-  --blue:#4B9CD3; --blue-ink:#17609A; --blue-soft:#D9EAF7;
-  --orange:#F66733; --orange-soft:#FDE3D8; --orange-ink:#9C3510;
-  --good:#16704E; --good-soft:#DCF0E6; --bad:#B0261E; --bad-soft:#FBE2DF; --focus:#17609A;
-  --seg-yes:#4B9CD3; --seg-no:#F9B293; --seg-text:#0F2036;
-  --head:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
-  --body:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  color-scheme:light;
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f6f8f8; --card:#ffffff; --text:#1d2b2a; --muted:#5b6b69; --line:#cfdad8;
+  --accent:#2fa89b; --accent-dark:#1f7f75; --accent-soft:#dff3f0;
+  --good:#1e7a3c; --good-soft:#dff3e5; --bad:#b3261e; --bad-soft:#fbe4e2;
+  --x:#1f7f75; --o:#c2571a;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0D1A2C; --surface:#152741; --surface-2:#1B3250; --ink:#E7EFF8; --muted:#A8BBD0; --line:#2B4566;
-    --blue:#6DB4E3; --blue-ink:#8CC8F0; --blue-soft:#1F3F60;
-    --orange:#FF8A5C; --orange-soft:#4A2A1E; --orange-ink:#FFB08F;
-    --good:#5ED0A2; --good-soft:#143A2D; --bad:#FF8A80; --bad-soft:#47201E; --focus:#8CC8F0;
-    --seg-yes:#6DB4E3; --seg-no:#E8946E; color-scheme:dark;
+  :root{
+    --bg:#121a19; --card:#1b2625; --text:#e6eeed; --muted:#9fb1ae; --line:#334442;
+    --accent:#3cc3b5; --accent-dark:#6fdccf; --accent-soft:#1d3a37;
+    --good:#6fd08c; --good-soft:#1c3a27; --bad:#ff8a80; --bad-soft:#40201e;
+    --x:#6fdccf; --o:#ffa56b;
   }
 }
-:root[data-theme="dark"]{
-  --bg:#0D1A2C; --surface:#152741; --surface-2:#1B3250; --ink:#E7EFF8; --muted:#A8BBD0; --line:#2B4566;
-  --blue:#6DB4E3; --blue-ink:#8CC8F0; --blue-soft:#1F3F60;
-  --orange:#FF8A5C; --orange-soft:#4A2A1E; --orange-ink:#FFB08F;
-  --good:#5ED0A2; --good-soft:#143A2D; --bad:#FF8A80; --bad-soft:#47201E; --focus:#8CC8F0;
-  --seg-yes:#6DB4E3; --seg-no:#E8946E; color-scheme:dark;
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;padding:16px}
+.wrap{max-width:1000px;margin:0 auto}
+h1{font-size:1.5rem;margin:0 0 2px}
+h2{font-size:1.15rem;margin:0 0 8px}
+.sub{color:var(--muted);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:16px;align-items:start}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 18px;font-weight:600}
+@media (prefers-color-scheme: dark){.btn{color:#0b1514}}
+.btn:hover{background:var(--accent-dark);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.alt{background:transparent;color:var(--accent-dark);border:2px solid var(--accent)}
+.btn.alt:hover{background:var(--accent-soft)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.status{display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:14px}
+.pill{background:var(--accent-soft);border-radius:999px;padding:4px 12px;font-weight:600;font-size:.9rem}
+.mark-x{color:var(--x);font-weight:800}
+.mark-o{color:var(--o);font-weight:800}
+/* board */
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%;max-width:340px;margin:0 auto;aspect-ratio:1/1}
+.cell{background:var(--card);border:2px solid var(--line);border-radius:10px;font-size:clamp(2rem,9vw,3.4rem);font-weight:800;display:flex;align-items:center;justify-content:center;color:var(--text);padding:0}
+.cell.x{color:var(--x)} .cell.o{color:var(--o)}
+.cell.open{border-color:var(--accent);background:var(--accent-soft)}
+.cell.open:hover{background:var(--accent);}
+.cell.sel{outline:4px solid var(--accent);outline-offset:-4px}
+.cell.win{background:var(--good-soft);border-color:var(--good)}
+.cell:disabled{cursor:default}
+.cell.stolen::after{content:"";}
+/* question */
+.ctx{background:var(--accent-soft);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:.95rem}
+.ctx p{margin:0 0 6px}
+.qtext{font-weight:600;margin:0 0 10px}
+.choices{display:grid;gap:8px;margin-bottom:12px}
+.choice{display:flex;gap:10px;text-align:left;background:var(--card);color:var(--text);border:2px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+.choice:hover:not(:disabled){border-color:var(--accent)}
+.choice.picked{border-color:var(--accent);background:var(--accent-soft)}
+.choice.correct{border-color:var(--good);background:var(--good-soft)}
+.choice.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.choice:disabled{cursor:default}
+.letter{font-weight:700;min-width:1.8em}
+.tag{font-size:.78rem;font-weight:700;margin-left:auto;white-space:nowrap;align-self:center}
+.fb{border-radius:10px;padding:12px 14px;margin-bottom:12px}
+.fb.good{background:var(--good-soft)} .fb.bad{background:var(--bad-soft)}
+.fb p{margin:0 0 6px}
+.banner{background:var(--accent);color:#fff;border-radius:10px;padding:12px 14px;margin-bottom:12px;font-weight:700}
+@media (prefers-color-scheme: dark){.banner{color:#0b1514}}
+table.data{border-collapse:collapse;margin:8px auto;background:var(--card)}
+table.data th,table.data td{border:1px solid var(--line);padding:4px 12px;text-align:center}
+table.data caption{font-weight:700;padding-bottom:4px}
+.hist{max-width:100%;overflow-x:auto;margin:6px 0 12px}
+.hist svg{max-width:100%;height:auto;display:block;margin:0 auto}
+.rps button{font-size:1.1rem;padding:14px 22px}
+input[type=text]{font:inherit;padding:8px 10px;border:2px solid var(--line);border-radius:8px;background:var(--card);color:var(--text);width:100%;max-width:320px}
+ul.rules{margin:6px 0 0 18px;padding:0}
+.res li{margin:4px 0}
+.small{font-size:.85rem;color:var(--muted)}
+@media print{
+  body{background:#fff;color:#000;padding:0}
+  .noprint{display:none!important}
+  .card{border:1px solid #999}
 }
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--body);-webkit-text-size-adjust:100%}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
-h1,h2,h3{font-family:var(--head);line-height:1.15;margin:0;letter-spacing:-0.01em}
-p{margin:0 0 .8em}
-a{color:var(--blue-ink)}
-:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
-.skip{position:absolute;left:-999px;top:0;background:var(--surface);color:var(--ink);padding:8px 12px;z-index:50}
-.skip:focus{left:8px;top:calc(env(safe-area-inset-top,0px) + 8px)}
-
-.shell{display:grid;grid-template-columns:280px minmax(0,1fr);gap:0;max-width:1220px;margin:0 auto}
-.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);align-self:start;padding:24px 16px 24px 20px;max-height:calc(100vh - 24px);overflow:auto}
-.rail-title{font-family:var(--head);font-weight:800;font-size:1.25rem;line-height:1.1;margin-bottom:18px}
-.rail-title span{display:block;font-family:var(--body);font-weight:400;font-size:.9rem;color:var(--muted);margin-top:4px}
-.rail ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
-.rail-item{all:unset;box-sizing:border-box;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:8px;width:100%;padding:10px 10px;border-radius:10px;cursor:pointer;color:var(--ink);border-left:4px solid transparent}
-.rail-item:hover{background:var(--surface-2)}
-.rail-item:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
-.rail-item[aria-current="page"]{background:var(--surface);border-left-color:var(--orange);box-shadow:0 0 0 1px var(--line)}
-.rn{font-family:var(--head);font-weight:800;font-size:1.15rem;color:var(--blue-ink)}
-.rt{font-size:.93rem;line-height:1.3}
-.rp{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
-
-main{padding:28px 28px 80px 12px;min-width:0;outline:none}
-.page{max-width:820px}
-
-.thead{display:flex;gap:22px;align-items:flex-start;margin-bottom:22px}
-.tnum{font-family:var(--head);font-weight:800;font-size:clamp(3.2rem,9vw,5.6rem);line-height:.9;color:var(--blue);letter-spacing:-0.04em;min-width:1.5em}
-.thead h1{font-size:clamp(1.5rem,3.6vw,2.1rem);margin-bottom:10px}
-.objs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:.95rem;color:var(--muted)}
-.code{display:inline-block;background:var(--blue-soft);color:var(--blue-ink);font-size:.78rem;font-weight:700;padding:1px 8px;border-radius:99px;margin-right:6px;white-space:nowrap}
-
-.tabs{display:inline-flex;background:var(--surface-2);border-radius:12px;padding:4px;gap:4px;margin:6px 0 26px}
-.tabs button,.seg button{font:inherit;font-size:.95rem;border:0;background:transparent;color:var(--ink);padding:8px 16px;border-radius:9px;cursor:pointer}
-.tabs button[aria-pressed="true"],.seg button[aria-pressed="true"]{background:var(--surface);box-shadow:0 0 0 1px var(--line);font-weight:700}
-.tabs button:hover,.seg button:hover{background:var(--surface)}
-
-.sec{margin:0 0 34px}
-.sec h2{font-size:1.35rem;margin-bottom:14px}
-.ideas{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
-.ideas li{display:grid;grid-template-columns:78px 1fr;gap:12px;align-items:start}
-.ideas .code{justify-self:start;margin-top:3px;margin-right:0}
-.callout{background:var(--orange-soft);border-left:5px solid var(--orange);padding:14px 18px;border-radius:0 10px 10px 0;margin:0 0 14px}
-.callout strong:first-child{color:var(--orange-ink)}
-.callout p:last-child{margin-bottom:0}
-.watch{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
-.watch li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
-.steps{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:8px}
-.say{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:0 10px 10px 0;padding:12px 18px;font-style:italic}
-.tbl{border-collapse:collapse;margin:8px 0 14px;font-variant-numeric:tabular-nums;max-width:100%}
-.tbl caption{caption-side:top;text-align:left;font-size:.9rem;color:var(--muted);padding-bottom:6px}
-.tbl th,.tbl td{border:1px solid var(--line);padding:7px 12px;text-align:center;font-size:.95rem}
-.tbl thead th{background:var(--surface-2)}
-.tbl tbody th{text-align:left;background:var(--surface-2);font-weight:700}
-.tbl tr:last-child td,.tbl tr:last-child th{font-weight:700}
-.scroll{overflow-x:auto;max-width:100%}
-
-.widget{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:0 0 34px}
-.w-head{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:12px}
-.w-head h3{font-size:1.15rem}
-.seg{display:inline-flex;background:var(--surface-2);border-radius:10px;padding:3px;gap:3px;flex-wrap:wrap}
-.seg button{padding:6px 12px;font-size:.88rem}
-.w-body.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:center}
-.w-note{margin:10px 0 0;min-height:3.2em}
-.w-out{margin:12px 0 0;padding:12px 14px;background:var(--surface-2);border-radius:10px}
-.w-out .calc{font-weight:700;font-variant-numeric:tabular-nums;margin-bottom:4px}
-svg{max-width:100%;height:auto;display:block}
-svg text{font-family:var(--body)}
-.ax{stroke:var(--muted);stroke-width:1}
-.tk{fill:var(--muted);font-size:11px}
-.sv{fill:var(--seg-text);font-size:14px;font-weight:700;text-anchor:middle}
-.lab{fill:var(--ink);font-size:13px;text-anchor:middle}
-.lg{fill:var(--ink);font-size:12px}
-.seg-yes{fill:var(--seg-yes)}.seg-no{fill:var(--seg-no)}
-.cells td button{all:unset;box-sizing:border-box;display:block;min-width:54px;padding:6px 10px;cursor:pointer;border-radius:6px;font-variant-numeric:tabular-nums}
-.cells td button:hover{background:var(--blue-soft)}
-.cells td button:focus-visible{outline:3px solid var(--focus)}
-.cells td.num{background:var(--orange-soft);box-shadow:inset 0 0 0 3px var(--orange)}
-.cells td.den{background:var(--blue-soft);box-shadow:inset 0 0 0 3px var(--blue-ink)}
-.keyline{display:flex;gap:16px;flex-wrap:wrap;font-size:.88rem;color:var(--muted);margin-top:6px}
-.sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:5px}
-.sw.n{background:var(--orange-soft);box-shadow:inset 0 0 0 2px var(--orange)}
-.sw.d{background:var(--blue-soft);box-shadow:inset 0 0 0 2px var(--blue-ink)}
-.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.btn{font:inherit;font-size:.95rem;border:2px solid var(--blue-ink);background:var(--blue-ink);color:#fff;padding:8px 16px;border-radius:10px;cursor:pointer;font-weight:700}
-:root[data-theme="dark"] .btn{color:#0D1A2C}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{color:#0D1A2C}}
-.btn.ghost{background:transparent;color:var(--blue-ink)}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.btn:hover:not(:disabled){filter:brightness(1.08)}
-.link{font:inherit;background:none;border:0;color:var(--blue-ink);text-decoration:underline;cursor:pointer;padding:6px 0}
-label.chk{display:flex;gap:8px;align-items:flex-start;margin:4px 0}
-.ctrl{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:10px}
-.ctrl label{font-weight:700;font-size:.95rem}
-select{font:inherit;font-size:.95rem;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);max-width:100%}
-.grid{border-collapse:separate;border-spacing:3px;margin:6px 0;font-variant-numeric:tabular-nums}
-.grid th{font-size:.82rem;color:var(--muted);font-weight:700;padding:2px 6px}
-.grid td{width:46px;height:38px;text-align:center;font-size:.8rem;border-radius:6px;background:var(--surface-2);color:var(--muted)}
-.grid td.in{background:var(--blue-soft);color:var(--ink);font-weight:700;box-shadow:inset 0 0 0 2px var(--blue-ink)}
-.grid td.comp{background:var(--orange-soft);color:var(--ink)}
-.grid td.a{background:var(--blue-soft);color:var(--ink);font-weight:700;box-shadow:inset 0 0 0 2px var(--blue-ink)}
-.grid td.b{background:var(--orange-soft);color:var(--ink);font-weight:700;box-shadow:inset 0 0 0 2px var(--orange)}
-.grid td.ab{background:var(--ink);color:var(--surface);font-weight:700}
-.gridwrap{overflow-x:auto}
-
-.status{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin-bottom:22px;font-variant-numeric:tabular-nums}
-.bar{flex:1 1 140px;height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--blue);width:0}
-.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:0 0 20px;outline:none}
-.q-head{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
-.qnum{font-family:var(--head);font-weight:800;font-size:1.05rem}
-.qtext{margin-bottom:12px}
-.opts{display:flex;flex-direction:column;gap:8px}
-.opt{font:inherit;text-align:left;display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:start;width:100%;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
-.opt:hover:not(:disabled){border-color:var(--blue-ink);background:var(--blue-soft)}
-.opt:disabled{cursor:default;color:var(--ink)}
-.letter{font-family:var(--head);font-weight:800;color:var(--blue-ink)}
-.mark{font-size:.8rem;font-weight:700;white-space:nowrap;align-self:center}
-.opt.right{border-color:var(--good);background:var(--good-soft)}
-.opt.right .mark{color:var(--good)}
-.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
-.opt.wrong .mark{color:var(--bad)}
-.fb{margin-top:14px;padding:12px 16px;border-radius:10px;background:var(--surface-2);outline:none}
-.fb.ok{border-left:5px solid var(--good)}
-.fb.no{border-left:5px solid var(--bad)}
-.fb.model{border-left:5px solid var(--blue)}
-.verdict{font-family:var(--head);font-weight:800;margin-bottom:6px}
-.fb.ok .verdict{color:var(--good)}.fb.no .verdict{color:var(--bad)}
-.work{font-variant-numeric:tabular-nums;background:var(--surface);border-radius:8px;padding:8px 12px;margin:6px 0}
-textarea{width:100%;font:inherit;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);resize:vertical;margin-bottom:8px}
-.wlabel{display:block;font-size:.92rem;color:var(--muted);margin-bottom:6px}
-.nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:30px}
-.rows{display:flex;flex-direction:column;gap:10px;margin:0 0 28px}
-.row{all:unset;box-sizing:border-box;display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;cursor:pointer;width:100%}
-.row:hover{border-color:var(--blue-ink)}
-.row:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.row .big{font-family:var(--head);font-weight:800;font-size:2rem;color:var(--blue);line-height:1}
-.row h3{font-size:1.05rem;margin-bottom:3px}
-.row p{margin:0;font-size:.93rem;color:var(--muted)}
-.row .prog{font-size:.88rem;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
-.home-lede{font-size:1.1rem;color:var(--muted);max-width:60ch;margin:10px 0 24px}
-.fine{font-size:.88rem;color:var(--muted)}
-
-@media (max-width:860px){
-  body::before{background:var(--surface)}
-  .shell{grid-template-columns:1fr}
-  .rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;max-height:none;overflow:visible;padding:8px 10px;background:var(--surface);border-bottom:1px solid var(--line)}
-  .rail-title{display:none}
-  .rail ul{flex-direction:row;overflow-x:auto;gap:4px}
-  .rail-item{grid-template-columns:auto;justify-items:center;gap:0;padding:6px 12px;min-width:56px;border-left:0;border-bottom:4px solid transparent}
-  .rail-item[aria-current="page"]{border-left-color:transparent;border-bottom-color:var(--orange)}
-  .rt{display:none}
-  .rp{font-size:.72rem}
-  main{padding:20px 16px 70px}
-  .w-body.two{grid-template-columns:1fr}
-  .thead{gap:14px}
-  .ideas li{grid-template-columns:1fr;gap:4px}
-  .row{grid-template-columns:56px 1fr}
-  .row .prog{grid-column:2;text-align:left}
-  .grid td{width:38px;height:34px}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<div class="shell">
-  <nav class="rail" id="rail" aria-label="Review sections"></nav>
-  <main id="main" tabindex="-1"></main>
+<div class="wrap">
+  <h1>Unit 2a Quiz Review</h1>
+  <p class="sub">Solo version for students who missed the in-class game. You play against the computer.</p>
+  <div id="app"></div>
+  <p class="small noprint">Review questions adapted from Math Medic.</p>
 </div>
 
 <script>
-(function(){
-'use strict';
+/* ---------- Settings ---------- */
+const COMPUTER_ACCURACY = 0.7;   // chance the computer answers a question correctly (0 to 1)
 
-/* ---------- storage (per-viewer convenience only) ---------- */
-var KEY='apstats-unit2-review-2.1-2.5';
-var memProgress={};
-function loadProgress(){ try{ var v=localStorage.getItem(KEY); return v?JSON.parse(v):{}; }catch(e){ return memProgress; } }
-function saveProgress(){ memProgress=progress; try{ localStorage.setItem(KEY,JSON.stringify(progress)); }catch(e){} }
-var progress=loadProgress();
+/* ---------- Content ---------- */
+const HIST = [1,10,13,21,26,14,7,6,1,1]; // frequencies for 0..9 free drink stamps (100 trials)
 
-/* ---------- shared tables ---------- */
-var EREADER='<table class="tbl"><caption>Survey of 200 students</caption><thead><tr><th scope="col"></th><th scope="col">Reads weekly</th><th scope="col">Doesn’t read weekly</th><th scope="col">Total</th></tr></thead><tbody><tr><th scope="row">Owns an e-reader</th><td>42</td><td>18</td><td>60</td></tr><tr><th scope="row">No e-reader</th><td>63</td><td>77</td><td>140</td></tr><tr><th scope="row">Total</th><td>105</td><td>95</td><td>200</td></tr></tbody></table>';
-var TRANS='<table class="tbl"><caption>Survey of 250 students: main way to get to school</caption><thead><tr><th scope="col"></th><th scope="col">Bus</th><th scope="col">Car</th><th scope="col">Walk</th><th scope="col">Total</th></tr></thead><tbody><tr><th scope="row">Underclassmen</th><td>60</td><td>20</td><td>20</td><td>100</td></tr><tr><th scope="row">Upperclassmen</th><td>45</td><td>75</td><td>30</td><td>150</td></tr><tr><th scope="row">Total</th><td>105</td><td>95</td><td>50</td><td>250</td></tr></tbody></table>';
-
-/* ---------- content ---------- */
-var TOPICS=[
-{
- key:'t21', num:'2.1', short:'Tables and graphs for two categorical variables',
- title:'Tabular and graphical representations for the distributions of two categorical variables',
- blurb:'Read and compare two-way tables and graphs, and decide whether two categorical variables are associated.',
- objectives:[
-  {code:'2.1.A',text:'Compare tabular and graphical representations for the relationship between two categorical variables.'},
-  {code:'2.1.B',text:'Justify a claim using tabular and graphical representations for the distributions of two categorical variables.'}],
- review:
- '<section class="sec"><h2>The big ideas</h2><ul class="ideas">'+
- '<li><span class="code">2.1.A.1</span><div><strong>Two-way table</strong> (also called a contingency table). It summarizes two categorical variables at once. Cells can hold counts (frequencies) or proportions (relative frequencies).</div></li>'+
- '<li><span class="code">2.1.A.2</span><div><strong>Graphs for two categorical variables:</strong> side-by-side bar charts, segmented bar charts, and mosaic plots. Each one shows how the categories of one variable are spread out within each category of the other.</div></li>'+
- '<li><span class="code">2.1.A.3</span><div><strong>Association.</strong> If the distribution of one variable changes from one level of the other variable to the next, the variables are associated. If the distribution stays about the same, there is little or no evidence of association.</div></li>'+
- '<li><span class="code">2.1.B.1</span><div><strong>Justifying a claim.</strong> Point to specific values from the table or graph and tie them to the context.</div></li>'+
- '</ul></section>'+
- '<div class="widget" data-widget="twoWay"></div>'+
- '<section class="sec"><h2>Watch out for</h2><ul class="watch">'+
- '<li><strong>Comparing counts when groups differ in size.</strong> A bigger group will usually have bigger counts. Compare percents within each group instead.</li>'+
- '<li><strong>Saying “causes.”</strong> Association is not causation. A two-way table from a survey can show a relationship, not a reason for it.</li>'+
- '<li><strong>Leaving out context.</strong> Name the groups and the response in your sentence. “They are different” is not a conclusion.</li>'+
- '</ul></section>'+
- '<section class="sec"><h2>What a complete claim sounds like</h2><p class="say">“A higher percent of students who own an e-reader read weekly (70%) than students who don’t own one (45%). Because the distribution of reading habits differs between the two groups, there is evidence of an association between owning an e-reader and reading weekly.”</p></section>',
- questions:[
-  {id:'t21-1',type:'mc',tag:'2.1.A',
-   q:'Which of these graphs is <strong>not</strong> used to display the relationship between two categorical variables?',
-   opts:['Segmented bar chart','Side-by-side bar chart','Histogram','Mosaic plot'],correct:2,
-   why:'<p>A histogram shows the distribution of one <em>quantitative</em> variable. Side-by-side bar charts, segmented bar charts, and mosaic plots all show how the categories of one variable are distributed across the categories of another.</p>'},
-  {id:'t21-2',type:'mc',tag:'2.1.A.3',
-   q:'A segmented bar chart shows the percent of students who chose pizza, salad, or a burger for lunch, with one bar for each grade level (9th through 12th). In all four bars the three segments are nearly the same size. What does this suggest?',
-   opts:['Grade level and lunch choice are strongly associated.','There is little or no evidence of an association between grade level and lunch choice.','Every grade has the same number of students.','Students in lower grades prefer pizza.'],correct:1,
-   why:'<p>When the distribution of one variable (lunch choice) is about the same at every level of the other (grade), knowing the grade tells you very little about the lunch choice. That is little or no evidence of association.</p><p>A chart of percents can’t tell you how many students are in each grade, so the third choice doesn’t follow.</p>'},
-  {id:'t21-3',type:'mc',tag:'2.1.B',
-   q:'At a school, 120 of 300 seniors and 50 of 100 freshmen reported bringing lunch from home. Which claim is best justified by these data?',
-   opts:['Seniors are more likely to bring lunch, because 120 is greater than 50.','Freshmen are more likely to bring lunch: 50% of freshmen did, compared with 40% of seniors.','Neither group is more likely, because the counts can’t be compared.','Seniors are more likely to bring lunch, because they make up 120 of the 170 students who bring lunch.'],correct:1,
-   why:'<p>The groups are different sizes, so compare percents <em>within each group</em>: seniors 120 ÷ 300 = 0.40 (40%), freshmen 50 ÷ 100 = 0.50 (50%).</p><p>Choices A and D use counts or the wrong direction of comparison. Choice C is wrong because percents <em>can</em> be compared even when counts can’t.</p>'},
-  {id:'t21-4',type:'written',tag:'2.1.B',
-   q:'<p>Use the table below. Do these data provide evidence of an association between owning an e-reader and reading for pleasure weekly? Justify your answer with relative frequencies.</p>'+EREADER,
-   model:'<p>Compare the percent who read weekly in each group.</p><p class="work">Owners: 42 ÷ 60 = 0.70 (70%)<br>Non-owners: 63 ÷ 140 = 0.45 (45%)</p><p>A higher percent of e-reader owners read weekly (70%) than students without an e-reader (45%). Because the distribution of reading habits is different for the two groups, there is evidence of an association between owning an e-reader and reading weekly.</p>',
-   checklist:['Used relative frequencies (percents), not just counts','Showed the calculation for <em>both</em> groups','Compared the two values','Stated a conclusion about association in context']}
- ]
-},
-{
- key:'t22', num:'2.2', short:'Summary statistics for two categorical variables',
- title:'Summary statistics for two categorical variables',
- blurb:'Joint, marginal, and conditional relative frequencies, and how to use them as evidence.',
- objectives:[
-  {code:'2.2.A',text:'Calculate summary statistics from two-way tables.'},
-  {code:'2.2.B',text:'Compare summary statistics for two categorical variables.'},
-  {code:'2.2.C',text:'Justify a claim using summary statistics for two categorical variables.'}],
- review:
- '<section class="sec"><h2>The big ideas</h2><ul class="ideas">'+
- '<li><span class="code">2.2.A.1</span><div><strong>Joint relative frequency:</strong> a cell count divided by the total for the <em>entire table</em>.</div></li>'+
- '<li><span class="code">2.2.A.2</span><div><strong>Marginal relative frequency:</strong> a row total or a column total divided by the total for the entire table.</div></li>'+
- '<li><span class="code">2.2.A.3</span><div><strong>Conditional relative frequency:</strong> restrict to one level (one row or one column) and divide a cell count by <em>that row’s or column’s total</em>.</div></li>'+
- '<li><span class="code">2.2.B.1</span><div><strong>Evidence of association.</strong> Compare conditional relative frequencies across the groups. If they are about equal, there is little evidence of association. If they differ, there is evidence of association.</div></li>'+
- '<li><span class="code">2.2.C.1</span><div><strong>Justifying a claim.</strong> Use the summary statistics to support a statement about the variables in context.</div></li>'+
- '</ul></section>'+
- '<div class="widget" data-widget="cells"></div>'+
- '<section class="sec"><h2>Matching the words to the denominator</h2><div class="scroll"><table class="tbl"><thead><tr><th>Type</th><th>Clue words</th><th>Divide by</th></tr></thead><tbody>'+
- '<tr><td>Joint</td><td>“and”, “both”</td><td>Total for the whole table</td></tr>'+
- '<tr><td>Marginal</td><td>Only one variable mentioned</td><td>Total for the whole table</td></tr>'+
- '<tr><td>Conditional</td><td>“of those who…”, “among…”, “given…”</td><td>Total for that row or that column</td></tr>'+
- '</tbody></table></div></section>'+
- '<section class="sec"><h2>Watch out for</h2><ul class="watch">'+
- '<li><strong>Using the wrong denominator.</strong> “Of the upperclassmen who drive” and “of the drivers who are upperclassmen” use different totals and give different answers.</li>'+
- '<li><strong>Condition on the group you are comparing.</strong> To see how a response changes across groups, find the conditional relative frequencies of the response <em>within each group</em>.</li>'+
- '<li><strong>Stopping at the number.</strong> A calculation is not a claim. Say what it means for the students, voters, patients, or whoever is in the problem.</li>'+
- '</ul></section>',
- questions:[
-  {id:'t22-1',type:'mc',tag:'2.2.A.1',
-   q:'<p>Use the table to find the joint relative frequency of students who are upperclassmen <strong>and</strong> drive a car.</p>'+TRANS,
-   opts:['75 ÷ 150 = 0.50','75 ÷ 95 ≈ 0.79','75 ÷ 250 = 0.30','150 ÷ 250 = 0.60'],correct:2,
-   why:'<p class="work">Expression: cell ÷ table total<br>Substitute: 75 ÷ 250<br>Answer: 0.30</p><p>A joint relative frequency always divides by the total for the entire table. The other choices divide by a row total, a column total, or compute something else entirely.</p>'},
-  {id:'t22-2',type:'mc',tag:'2.2.A.2',
-   q:'<p>Use the same table. What is the marginal relative frequency of students who ride the bus?</p>'+TRANS,
-   opts:['60 ÷ 250 = 0.24','105 ÷ 250 = 0.42','60 ÷ 100 = 0.60','105 ÷ 150 = 0.70'],correct:1,
-   why:'<p class="work">Expression: column total ÷ table total<br>Substitute: 105 ÷ 250<br>Answer: 0.42</p><p>A marginal relative frequency describes one variable only, using a total from the margin of the table.</p>'},
-  {id:'t22-3',type:'mc',tag:'2.2.A.3',
-   q:'<p>Use the same table. Of the upperclassmen, what percent drive a car?</p>'+TRANS,
-   opts:['About 79%, because 75 ÷ 95','30%, because 75 ÷ 250','60%, because 150 ÷ 250','50%, because 75 ÷ 150'],correct:3,
-   why:'<p class="work">Expression: cell ÷ row total<br>Substitute: 75 ÷ 150<br>Answer: 0.50, or 50%</p><p>“Of the upperclassmen” restricts you to the upperclassmen row, so divide by that row’s total of 150. Choice A answers a different question: “of the drivers, what percent are upperclassmen?”</p>'},
-  {id:'t22-4',type:'mc',tag:'2.2.A.3',
-   q:'<p>Use the same table. Of the students who drive a car, what percent are upperclassmen?</p>'+TRANS,
-   opts:['50%','30%','About 79%','60%'],correct:2,
-   why:'<p class="work">Expression: cell ÷ column total<br>Substitute: 75 ÷ 95<br>Answer: ≈ 0.789, or about 79%</p><p>Now the restriction is the “Car” column, so divide by that column’s total of 95.</p>'},
-  {id:'t22-5',type:'mc',tag:'2.2.B',
-   q:'To decide whether grade level helps explain how students get to school, which set of relative frequencies is most useful to compare?',
-   opts:['The six joint relative frequencies','The conditional relative frequencies of transportation method within each grade level','The marginal relative frequencies of transportation method','The grand total of 250'],correct:1,
-   why:'<p>Association is about whether the distribution of one variable changes across the levels of the other. Conditional relative frequencies of transportation within each grade level let you compare those distributions directly.</p><p>Joint and marginal relative frequencies don’t separate the two grade levels, and a grand total carries no comparison at all.</p>'},
-  {id:'t22-6',type:'written',tag:'2.2.C',
-   q:'<p>Use the table below. Is there evidence of an association between grade level and the way students get to school? Justify your answer with conditional relative frequencies.</p>'+TRANS,
-   model:'<p>Find the distribution of transportation within each grade level.</p><p class="work">Underclassmen: bus 60 ÷ 100 = 60%, car 20 ÷ 100 = 20%, walk 20 ÷ 100 = 20%<br>Upperclassmen: bus 45 ÷ 150 = 30%, car 75 ÷ 150 = 50%, walk 30 ÷ 150 = 20%</p><p>The distributions differ. Underclassmen are much more likely to ride the bus (60% vs. 30%) and much less likely to drive (20% vs. 50%), though walking is the same in both groups (20%). Because the distribution of transportation method is different for the two grade levels, there is evidence of an association between grade level and transportation method.</p>',
-   checklist:['Used conditional relative frequencies within each grade level','Showed the divisions with the correct row totals (100 and 150)','Compared the distributions, citing specific percents','Concluded “evidence of association” in context']}
- ]
-},
-{
- key:'t23', num:'2.3', short:'Estimating probabilities with simulation',
- title:'Estimating probabilities using simulation',
- blurb:'Model a random process, run many trials, and use long-run relative frequency.',
- objectives:[{code:'2.3.A',text:'Estimate probabilities using simulations.'}],
- review:
- '<section class="sec"><h2>The big ideas</h2><ul class="ideas">'+
- '<li><span class="code">2.3.A.1–3</span><div>A <strong>random process</strong> produces results determined by chance. An <strong>outcome</strong> is the result of one trial. An <strong>event</strong> is a collection of outcomes.</div></li>'+
- '<li><span class="code">2.3.A.4</span><div><strong>Simulation</strong> models a random event so the simulated outcomes closely match real-world outcomes. Every possible outcome is tied to a value left to chance, and you record counts of simulated outcomes along with the number of trials.</div></li>'+
- '<li><span class="code">2.3.A.5–6</span><div>The <strong>probability</strong> of an outcome or event is its long-run relative frequency. The relative frequency from data or simulation is an <em>estimate</em> of the true probability.</div></li>'+
- '<li><span class="code">2.3.A.7</span><div><strong>Law of large numbers.</strong> For independent trials, as the number of trials increases, the relative frequency of the event gets closer and closer to a single value.</div></li>'+
- '</ul></section>'+
- '<section class="sec"><h2>How to set up a simulation</h2><ol class="steps">'+
- '<li><strong>Model it.</strong> Assign random digits (or another random device) so each outcome has the right probability. Example: for a 70% shooter, digits 0–6 are a make and 7–9 are a miss.</li>'+
- '<li><strong>Define one trial.</strong> Say exactly what one complete run of the process is and what counts as a success.</li>'+
- '<li><strong>Repeat many times.</strong> Record the result of every trial.</li>'+
- '<li><strong>Estimate.</strong> Divide the number of successful trials by the total number of trials.</li>'+
- '</ol></section>'+
- '<div class="widget" data-widget="sim"></div>'+
- '<section class="sec"><h2>Watch out for</h2><ul class="watch">'+
- '<li><strong>“Due” thinking.</strong> After eight heads in ten flips, the next flip is still 50/50. The law of large numbers is about relative frequency settling down over many trials, not about the process making up for earlier results.</li>'+
- '<li><strong>Models that don’t match the probabilities.</strong> Digits 1–3 out of 0–9 are a 30% event, not 70%. Check your assignment adds up.</li>'+
- '<li><strong>Treating an estimate as exact.</strong> A simulation gives an estimate. A different run of the same simulation will usually give a slightly different value.</li>'+
- '</ul></section>',
- questions:[
-  {id:'t23-1',type:'mc',tag:'2.3.A.3',
-   q:'A fair six-sided die is rolled once. Which of the following is an event made up of more than one outcome?',
-   opts:['Rolling a 4','Rolling a number greater than 4','Rolling a 7','Rolling the die'],correct:1,
-   why:'<p>An event is a collection of outcomes. “Greater than 4” is the collection {5, 6}, which has two outcomes. Rolling a 4 is a single outcome. Rolling a 7 contains no outcomes at all.</p>'},
-  {id:'t23-2',type:'mc',tag:'2.3.A.4',
-   q:'A basketball player makes 70% of her free throws. You want to estimate the probability she makes at least 3 of her next 4 shots using random digits 0–9. Which setup is appropriate?',
-   opts:['Digits 1–3 are a made shot. Use 4 digits per trial.','Digits 0–6 are a made shot. Use 1 digit per trial.','Digits 0–6 are a made shot and 7–9 are a miss. Use 4 digits per trial and count trials with at least 3 made shots.','Two-digit numbers 00–70 are a made shot. Use 4 numbers per trial.'],correct:2,
-   why:'<p>Seven of the ten digits (0–6) give a 70% chance for each shot, and one trial must represent all 4 shots, so a trial uses 4 digits.</p><p>A: digits 1–3 are only 30%. B: one digit models just one shot. D: 00–70 is 71 of 100 numbers, which is 71%, not 70%.</p>'},
-  {id:'t23-3',type:'mc',tag:'2.3.A.5',
-   q:'In a simulation of the free-throw situation, the player made at least 3 of 4 shots in 36 out of 50 trials. What is the estimated probability?',
-   opts:['36','0.72','0.28','0.70'],correct:1,
-   why:'<p class="work">Expression: successful trials ÷ total trials<br>Substitute: 36 ÷ 50<br>Answer: 0.72</p><p>The estimate is the relative frequency of the event across all trials. (The true probability is about 0.65, so with only 50 trials it’s reasonable to be a little off.)</p>'},
-  {id:'t23-4',type:'mc',tag:'2.3.A.7',
-   q:'Which statement correctly applies the law of large numbers to flipping a fair coin?',
-   opts:['After 8 heads in 10 flips, tails is due, so the next flip is more likely to be tails.','After 1,000 flips, the number of heads will be exactly 500.','As the number of flips increases, the proportion of heads tends to get closer to 0.5.','If the proportion of heads after 10 flips is 0.8, the proportion after 20 flips must be closer to 0.5.'],correct:2,
-   why:'<p>The law of large numbers says the long-run relative frequency settles toward a single value. It doesn’t say the count will hit an exact number (B), that the coin “remembers” (A), or that every step moves closer (D). Short-run swings are normal.</p>'},
-  {id:'t23-5',type:'mc',tag:'2.3.A.5',
-   q:'A forecast says there is a 30% chance of rain tomorrow. Which interpretation best matches probability as long-run relative frequency?',
-   opts:['It will rain for 30% of the day.','Over many days with conditions like tomorrow’s, it rains on about 30% of them.','It will rain on exactly 3 of the next 10 days.','Rain is unlikely, so there is no need to prepare.'],correct:1,
-   why:'<p>Probability describes what happens in the long run over many repetitions of a random process. It doesn’t tell you how long it rains (A), guarantee an exact count in a short stretch (C), or tell you what to do (D).</p>'},
-  {id:'t23-6',type:'written',tag:'2.3.A.4',
-   q:'<p>Describe a simulation you could use to estimate the probability that a family with 3 children has at least one girl. Assume each child is equally likely to be a boy or a girl.</p>',
-   model:'<p><strong>Model:</strong> Use one random digit per child. Digits 0–4 mean boy and digits 5–9 mean girl, so each is 50%.</p><p><strong>One trial:</strong> Generate 3 digits (one family). Count the trial as a success if at least one digit is 5–9.</p><p><strong>Repeat:</strong> Run many trials (for example, 1,000) and record each result.</p><p><strong>Estimate:</strong> number of successful trials ÷ total number of trials.</p><p>(Counting gives the true value: 1 − (1/2)³ = 7/8 = 0.875, so your estimate should land near that.)</p>',
-   checklist:['Assigned digits (or another device) so boy and girl are each 50%','Said what one trial is (3 children) and what counts as a success','Said to repeat many times','Said how to compute the estimate']}
- ]
-},
-{
- key:'t24', num:'2.4', short:'Introduction to probability',
- title:'Introduction to probability',
- blurb:'Sample spaces, equally likely outcomes, and the complement rule.',
- objectives:[{code:'2.4.A',text:'Calculate probabilities for events and their complements.'}],
- review:
- '<section class="sec"><h2>The big ideas</h2><ul class="ideas">'+
- '<li><span class="code">2.4.A.1</span><div><strong>Sample space:</strong> the set of all possible nonoverlapping outcomes. The probability of the whole sample space is 1.</div></li>'+
- '<li><span class="code">2.4.A.2</span><div><strong>Equally likely outcomes.</strong> P(E) = (number of outcomes in E) ÷ (total number of outcomes in the sample space).</div></li>'+
- '<li><span class="code">2.4.A.3</span><div>Every probability is between 0 and 1, inclusive. 0 means the event is impossible and 1 means it is certain.</div></li>'+
- '<li><span class="code">2.4.A.4</span><div><strong>Complement:</strong> the probability of “not E” is 1 − P(E). The complement of E can be written E′, Ē, or E<sup>C</sup>.</div></li>'+
- '</ul></section>'+
- '<div class="callout"><p><strong>Show your work the AP way.</strong> A probability calculation earns credit for an expression that shows the structure, the values from the problem substituted in, and an answer. Write all three.</p></div>'+
- '<div class="widget" data-widget="dice1"></div>'+
- '<section class="sec"><h2>Watch out for</h2><ul class="watch">'+
- '<li><strong>Assuming outcomes are equally likely.</strong> The 11 possible sums of two dice (2 through 12) are <em>not</em> equally likely. The 36 (first die, second die) pairs are, so count those.</li>'+
- '<li><strong>Overlapping “outcomes.”</strong> A sample space needs nonoverlapping outcomes. “At least one head” and “at most one head” can both happen on the same toss, so they can’t both be outcomes.</li>'+
- '<li><strong>Missing the complement shortcut.</strong> For “at least one,” it is usually easier to find P(none) and subtract from 1.</li>'+
- '</ul></section>',
- questions:[
-  {id:'t24-1',type:'mc',tag:'2.4.A.3',
-   q:'Which of these could <strong>not</strong> be the probability of an event?',
-   opts:['0','1','1.25','0.003'],correct:2,
-   why:'<p>Probabilities are between 0 and 1, inclusive. 0 and 1 are both allowed (impossible and certain events), and 0.003 is just a very small probability. 1.25 is greater than 1, so it can’t be a probability.</p>'},
-  {id:'t24-2',type:'mc',tag:'2.4.A.4',
-   q:'A bag has 5 red, 3 blue, and 2 green marbles. One marble is chosen at random. What is the probability it is <strong>not</strong> blue?',
-   opts:['3/10','7/10','5/10','2/10'],correct:1,
-   why:'<p class="work">Expression: P(not blue) = 1 − P(blue)<br>Substitute: 1 − 3/10<br>Answer: 7/10 = 0.70</p><p>You can also count the 7 marbles that aren’t blue out of 10.</p>'},
-  {id:'t24-3',type:'mc',tag:'2.4.A.2',
-   q:'Two fair six-sided dice are rolled. What is the probability that at least one die shows a 6?',
-   opts:['1/6','12/36','11/36','1/3'],correct:2,
-   why:'<p class="work">Expression: P(at least one 6) = 1 − P(no 6s)<br>Substitute: 1 − 25/36<br>Answer: 11/36 ≈ 0.306</p><p>There are 25 of 36 pairs with no 6 (5 choices × 5 choices). Choice B adds 1/6 + 1/6, which counts the (6, 6) pair twice.</p>'},
-  {id:'t24-4',type:'mc',tag:'2.4.A.2',
-   q:'A student says, “When I roll two dice, the probability the sum is 7 is 1/11, because the sums 2 through 12 give 11 possible outcomes.” What is the error?',
-   opts:['The sums are not equally likely, so you can’t divide 1 by the number of sums.','The student should have included the sum of 1.','The probability of a sum of 7 is 1/2.','There is no error.'],correct:0,
-   why:'<p>The formula (outcomes in E) ÷ (total outcomes) only works when all outcomes are equally likely. The 36 pairs of dice are equally likely, and 6 of them add to 7, so P(sum is 7) = 6/36 = 1/6.</p>'},
-  {id:'t24-5',type:'mc',tag:'2.4.A.1',
-   q:'Two fair coins are tossed. Which choice lists a valid sample space of equally likely, nonoverlapping outcomes?',
-   opts:['{no heads, one head, two heads}','{HH, HT, TH, TT}','{HH, HT, TT}','{at least one head, at most one head}'],correct:1,
-   why:'<p>{HH, HT, TH, TT} are nonoverlapping and equally likely (each has probability 1/4). Choice A is nonoverlapping but “one head” is twice as likely as the others, C leaves out an outcome, and D has overlapping outcomes (HT and TH are in both).</p>'},
-  {id:'t24-6',type:'written',tag:'2.4.A',
-   q:'<p>Four cards are numbered 1, 2, 3, and 4. Two cards are drawn at random without replacement, and you add the numbers. List the sample space, then find the probability that the sum is 5 and the probability that the sum is <strong>not</strong> 5.</p>',
-   model:'<p><strong>Sample space</strong> (each pair is equally likely): {1,2} sum 3, {1,3} sum 4, {1,4} sum 5, {2,3} sum 5, {2,4} sum 6, {3,4} sum 7. That is 6 outcomes.</p><p class="work">P(sum is 5) = outcomes with sum 5 ÷ total outcomes = 2/6 = 1/3<br>P(sum is not 5) = 1 − P(sum is 5) = 1 − 1/3 = 2/3</p>',
-   checklist:['Listed all 6 equally likely, nonoverlapping outcomes','Wrote an expression for P(sum is 5) and substituted values','Used the complement rule for “not 5”','Gave both answers']}
- ]
-},
-{
- key:'t25', num:'2.5', short:'Mutually exclusive events',
- title:'Mutually exclusive events',
- blurb:'Joint probability, and how to justify that two events can’t happen together.',
- objectives:[{code:'2.5.A',text:'Justify why two events are mutually exclusive (or disjoint) using joint probability.'}],
- review:
- '<section class="sec"><h2>The big ideas</h2><ul class="ideas">'+
- '<li><span class="code">2.5.A.1</span><div><strong>Joint probability:</strong> the probability that events A and B <em>both</em> occur. It is the probability of the intersection, written P(A ∩ B).</div></li>'+
- '<li><span class="code">2.5.A.2</span><div><strong>Mutually exclusive</strong> (disjoint) events cannot occur at the same time. If A and B are mutually exclusive, then P(A ∩ B) = 0.</div></li>'+
- '</ul></section>'+
- '<section class="sec"><h2>How to justify it</h2><ul class="watch">'+
- '<li><strong>To show events are mutually exclusive,</strong> explain why no outcome can be in both, or show that P(A ∩ B) = 0. Example: one card can’t be both a heart and a spade.</li>'+
- '<li><strong>To show events are not mutually exclusive,</strong> point to one outcome in both, or show that P(A ∩ B) is greater than 0. Example: the king of hearts is both a heart and a king.</li>'+
- '<li><strong>In a two-way table,</strong> categories within the same variable (like Bus and Car, when each student gave one answer) are mutually exclusive. A category from each variable (like Upperclassman and Walks) usually isn’t, because that cell has a nonzero count.</li>'+
- '</ul></section>'+
- '<div class="widget" data-widget="dice2"></div>'+
- '<section class="sec"><h2>Watch out for</h2><ul class="watch">'+
- '<li><strong>“Different” is not “disjoint.”</strong> Two events can describe different things and still overlap. What matters is whether they can happen at the same time.</li>'+
- '<li><strong>Don’t justify with “they seem unrelated.”</strong> Use the joint probability, with numbers if you have them.</li>'+
- '</ul></section>'+
- '<div class="callout"><p><strong>Coming up.</strong> In later topics you’ll work with conditional probability, independence, and unions of events. Mutually exclusive is a different idea from independent, so keep the two apart as you go.</p></div>',
- questions:[
-  {id:'t25-1',type:'mc',tag:'2.5.A',
-   q:'One card is drawn from a standard deck. Which pair of events is mutually exclusive?',
-   opts:['The card is a heart; the card is a king','The card is a heart; the card is a spade','The card is a face card; the card is red','The card is a king; the card is a face card'],correct:1,
-   why:'<p>No card is both a heart and a spade, so P(heart ∩ spade) = 0. In the other pairs, the king of hearts is both a heart and a king, a red jack is both a face card and red, and every king is a face card.</p>'},
-  {id:'t25-2',type:'mc',tag:'2.5.A.2',
-   q:'For events A and B, P(A) = 0.5, P(B) = 0.3, and P(A ∩ B) = 0.10. Which statement is correctly justified?',
-   opts:['A and B are mutually exclusive, because P(A) + P(B) is less than 1.','A and B are not mutually exclusive, because P(A ∩ B) = 0.10, which is not 0.','A and B are mutually exclusive, because P(A) is not equal to P(B).','There is not enough information to decide.'],correct:1,
-   why:'<p>Mutually exclusive events have a joint probability of 0. Here P(A ∩ B) = 0.10 ≠ 0, so the events can occur together. The other statements don’t use the joint probability, which is the evidence that matters.</p>'},
-  {id:'t25-3',type:'mc',tag:'2.5.A',
-   q:'<p>Each student in the survey gave exactly one main way of getting to school. Which statement is correctly justified?</p>'+TRANS,
-   opts:['“Upperclassman” and “rides the bus” are mutually exclusive, because they describe different groups.','“Rides the bus” and “drives a car” are mutually exclusive, because every student gave exactly one method, so P(bus ∩ car) = 0.','“Underclassman” and “walks” are mutually exclusive, because P(underclassman ∩ walks) = 20/250 is small.','“Upperclassman” and “drives a car” are mutually exclusive, because more upperclassmen drive than underclassmen.'],correct:1,
-   why:'<p>No student is counted as both bus and car, so the joint probability is 0. In the other statements, 45 upperclassmen ride the bus, 20 underclassmen walk, and 75 upperclassmen drive, so each joint probability is greater than 0. A small joint probability is still not 0.</p>'},
-  {id:'t25-4',type:'mc',tag:'2.5.A.2',
-   q:'Events A and B are mutually exclusive. Which of the following must be true?',
-   opts:['P(A) + P(B) = 1','P(A) = P(B)','P(A) = 1 − P(B)','P(A ∩ B) = 0'],correct:3,
-   why:'<p>Mutually exclusive events can’t occur at the same time, so their joint probability is 0. The other statements are sometimes true but aren’t required. (A and “not A” would satisfy C, but that is a special case.)</p>'},
-  {id:'t25-5',type:'written',tag:'2.5.A',
-   q:'<p>Of 400 students at a school, 90 take AP Statistics, 80 take AP Calculus, and 25 take both. A student claims, “Taking AP Statistics and taking AP Calculus are mutually exclusive events because they’re different courses.” Is the claim correct? Justify your answer with a probability.</p>',
-   model:'<p>The claim is not correct.</p><p class="work">P(AP Stats ∩ AP Calc) = 25 ÷ 400 = 0.0625</p><p>Since the joint probability is 0.0625, which is not 0, a randomly selected student can take both courses. Mutually exclusive events must have P(A ∩ B) = 0. Being different courses doesn’t make the events disjoint; what matters is whether a student can be in both.</p>',
-   checklist:['Said the claim is incorrect','Calculated the joint probability with the numbers shown (25 ÷ 400)','Compared it to 0 as the test for mutually exclusive','Explained that “different courses” doesn’t settle it']}
- ]
-}
+const SETS = [
+  { title:"Set 1", ctx:`
+    <p>A coffee shop claims that one in five customers who order a latte receives a "free drink" stamp on their cup. Maya is skeptical and decides to keep track. Over her next 20 visits, she receives only one free drink stamp. To investigate whether the shop's claim is true, her statistics class runs a simulation assuming the claim is correct.</p>` },
+  { title:"Set 2", ctx:`
+    <p>At a local music festival, 50 randomly selected attendees were asked their age group and their favorite genre performed at the festival. The results are shown in the table below.</p>
+    <table class="data">
+      <caption>Festival Attendee Survey</caption>
+      <tr><th></th><th>Country</th><th>Rock</th><th>Hip-Hop</th><th>Total</th></tr>
+      <tr><th>Teen</th><td>4</td><td>8</td><td>13</td><td>25</td></tr>
+      <tr><th>Adult</th><td>11</td><td>9</td><td>5</td><td>25</td></tr>
+      <tr><th>Total</th><td>15</td><td>17</td><td>18</td><td>50</td></tr>
+    </table>` },
+  { title:"Set 3", ctx:`
+    <p>A standard bag of M&amp;M’s contains candies in six colors: red, orange, yellow, green, blue, and brown. According to the manufacturer, 40% of candies are blue or green, 34% are orange or yellow, and the remaining candies are split equally between red and brown. A single candy is randomly selected from the bag.</p>` }
 ];
 
-var TOOLS=['Complement rule: P(not E) = 1 − P(E)','Conditional relative frequency','Joint probability equal to 0','Simulation and long-run relative frequency'];
-var MIXED={
- key:'mx', num:'Mix', short:'Mixed review', title:'Mixed review',
- questions:[
-  {id:'mx-1',type:'mc',
-   q:'<p>Using the transportation survey, you want the percent of upperclassmen who drive. Which idea do you need?</p>'+TRANS,
-   opts:TOOLS,correct:1,
-   why:'<p><strong>Topic 2.2.</strong> “Of the upperclassmen” restricts you to one row, so this is a conditional relative frequency: 75 ÷ 150 = 50%.</p>'},
-  {id:'mx-2',type:'mc',
-   q:'You want the probability that at least one of three coin flips is heads, without listing all eight outcomes. Which idea is the best shortcut?',
-   opts:TOOLS,correct:0,
-   why:'<p><strong>Topic 2.4.</strong> Find the probability of the complement, no heads (1/8), and subtract from 1: 1 − 1/8 = 7/8.</p>'},
-  {id:'mx-3',type:'mc',
-   q:'You want to justify that two events can never happen at the same time. Which idea do you need?',
-   opts:TOOLS,correct:2,
-   why:'<p><strong>Topic 2.5.</strong> Mutually exclusive events have P(A ∩ B) = 0. Show that no outcome belongs to both events, or that their joint probability is 0.</p>'},
-  {id:'mx-4',type:'mc',
-   q:'A board game involves drawing cards, rolling dice, and spinning a spinner in a way that is too complicated to count. You decide to have a computer play 10,000 simulated games and record how often a player wins. Which idea are you using?',
-   opts:TOOLS,correct:3,
-   why:'<p><strong>Topic 2.3.</strong> When counting is impractical, simulate many trials. The relative frequency of wins estimates the true probability.</p>'},
-  {id:'mx-5',type:'mc',
-   q:'<p>Using the transportation survey, what is the probability that a randomly selected student does <strong>not</strong> walk to school?</p>'+TRANS,
-   opts:['0.20','0.80','0.50','0.95'],correct:1,
-   why:'<p><strong>Topics 2.2 and 2.4.</strong></p><p class="work">Marginal: P(walk) = 50 ÷ 250 = 0.20<br>Complement: P(not walk) = 1 − 0.20 = 0.80</p>'},
-  {id:'mx-6',type:'mc',
-   q:'A simulation with 100 trials estimates a probability as 0.62. A second simulation of the same event with 10,000 trials estimates it as 0.655. Which conclusion is best supported?',
-   opts:['The first estimate is more accurate because it came first.','The second estimate is likely closer to the true probability, because relative frequency tends to get closer to the true value as the number of trials increases.','The two estimates are equally reliable.','Neither estimate says anything about the true probability.'],correct:1,
-   why:'<p><strong>Topic 2.3.</strong> The law of large numbers says long-run relative frequency settles toward the true probability. More trials usually means a better estimate, though it never guarantees an exact value.</p>'},
-  {id:'mx-7',type:'mc',
-   q:'A segmented bar chart shows the percent of students who chose each lunch option, with one bar for each grade level. The segments are noticeably different from bar to bar. What is the best conclusion?',
-   opts:['There is evidence of an association between grade level and lunch choice.','Grade level causes students to choose certain lunches.','There is no evidence of an association between grade level and lunch choice.','Every grade has a different number of students.'],correct:0,
-   why:'<p><strong>Topic 2.1.</strong> When the distribution of one variable changes across the levels of the other, the variables are associated. Be careful with choice B: association alone doesn’t show cause and effect.</p>'}
- ]
-};
+const Q = [
+  { set:0, text:"Which of the following best describes how a single trial of the simulation should be set up?",
+    choices:[
+      "Use a spinner with 5 equal sections, numbered 1–5. Spin once and record whether the result is a 1.",
+      "Use a random number generator to produce 20 integers from 1–5. Record the number of 1s.",
+      "Flip a coin 20 times. Record the number of heads.",
+      "Draw a card from a standard deck 20 times. Record the number of aces."],
+    answer:1,
+    explain:"Each visit has a 1-in-5 chance of a stamp, so the integers 1–5 (with 1 meaning “stamp”) model one visit. One trial is 20 visits, so generate 20 integers and count the 1s." },
+  { set:0, hist:true, text:"The histogram below displays the results of 100 simulated trials. Based on the histogram, what is the estimated probability of getting one or fewer “free drink” stamps in 20 visits, assuming the shop's claim is true?",
+    choices:["0.01","0.06","0.11","0.21"], answer:2,
+    explain:"In the histogram, 1 trial had 0 stamps and 10 trials had 1 stamp. That is 1 + 10 = 11 trials out of 100, so the estimated probability is 0.11." },
+  { set:0, hist:true, text:"The histogram below shows the same 100 simulated trials from the previous question. Based on the simulation results, which of the following is the most appropriate conclusion?",
+    choices:[
+      "Maya has convincing statistical evidence that the shop's claim is false, because getting 1 or fewer “free drink” stamps in 20 visits would rarely happen by chance.",
+      "Maya does not have convincing statistical evidence that the shop's claim is false, because getting 1 or fewer “free drink” stamps in 20 visits could reasonably happen by chance.",
+      "Maya has proven that the shop's claim is false because she did not receive the expected number of “free drink” stamps.",
+      "Maya has convincing statistical evidence that the shop's claim is true because her result was close to the expected number of “free drink” stamps."],
+    answer:1,
+    explain:"About 11% of the simulated trials gave 1 or fewer stamps, so Maya's result is not unusual if the claim is true. That is not convincing evidence against the claim. Also, a simulation can never prove a claim false (or true)." },
+  { set:1, text:"Based on the table, what is the probability that a randomly selected attendee prefers Hip-Hop?",
+    choices:["0.26","0.36","0.50","0.52"], answer:1,
+    explain:"18 of the 50 attendees prefer Hip-Hop: 18/50 = 0.36." },
+  { set:1, text:"Based on the table, what is the probability that a randomly selected attendee is a teen or prefers Hip-Hop?",
+    choices:["0.26","0.36","0.60","0.86"], answer:2,
+    explain:"P(teen or Hip-Hop) = 25/50 + 18/50 − 13/50 = 30/50 = 0.60. Subtract the 13 teens who prefer Hip-Hop so they are not counted twice." },
+  { set:1, text:"Based on the table, what is the probability that a randomly selected attendee is a teen and prefers Rock?",
+    choices:["0.16","0.32","0.47","0.50"], answer:0,
+    explain:"8 of the 50 attendees are teens who prefer Rock: 8/50 = 0.16." },
+  { set:2, text:"What is the probability that the selected candy is red or brown?",
+    choices:["0.13","0.26","0.34","0.40"], answer:1,
+    explain:"40% + 34% = 74% of candies are blue, green, orange, or yellow. That leaves 26% for red and brown together, so P(red or brown) = 0.26. (0.13 would be just one of those two colors.)" },
+  { set:2, text:"Are the events “selecting a blue or green candy” and “selecting an orange or yellow candy” mutually exclusive? Which of the following correctly justifies the answer?",
+    choices:[
+      "No, because blue, green, orange, and yellow are all possible outcomes.",
+      "No, because P(blue or green) + P(orange or yellow) = 0.74, which is less than 1.",
+      "Yes, because a single candy cannot be both in the blue/green group and the orange/yellow group at the same time.",
+      "Yes, because P(blue or green) + P(orange or yellow) ≠ 1."],
+    answer:2,
+    explain:"Mutually exclusive events cannot happen at the same time. One candy can't be in both color groups. Whether the probabilities add up to 1 has nothing to do with it." },
+  { set:2, text:"Suppose a second candy is selected at random after the first is replaced. What is the probability that both candies are blue or green?",
+    choices:["0.40","0.80","0.16","0.20"], answer:2,
+    explain:"Because the first candy is replaced, the two selections are independent: 0.40 × 0.40 = 0.16." }
+];
 
-var QINDEX={};
-TOPICS.forEach(function(t){ t.questions.forEach(function(q,i){ QINDEX[q.id]={q:q,n:i+1}; }); });
-MIXED.questions.forEach(function(q,i){ QINDEX[q.id]={q:q,n:i+1}; });
+const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+const L = ['A','B','C','D'];
+let S = {};
 
-/* ---------- helpers ---------- */
-var LETTERS='ABCD';
-function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function gcd(a,b){ return b?gcd(b,a%b):a; }
-function frac(k,n){ if(k===0) return '0'; var g=gcd(k,n); return (k/g)+'/'+(n/g); }
-function fmtPct(v){ return String(+(v*100).toFixed(1)); }
-function setFor(t){ return t.key==='mx'?MIXED:t; }
-function stats(set){
-  var done=0,correct=0,total=set.questions.length;
-  set.questions.forEach(function(q){
-    var r=progress[q.id]; if(!r) return;
-    if(q.type==='mc' && typeof r.choice==='number'){ done++; if(r.correct) correct++; }
-    if(q.type==='written' && r.self){ done++; if(r.self==='got') correct++; }
-  });
-  return {done:done,correct:correct,total:total};
+/* ---------- State helpers ---------- */
+function reset(name){
+  S = { name:name||'', phase:'rps', rpsMsg:'', me:null, opp:null, qi:0,
+        board:Array(9).fill(null), sel:null, chosen:null, mode:null,
+        winner:null, winLine:null, results:[], fb:null };
 }
-
-/* ---------- question rendering ---------- */
-function qHTML(q,n){
-  var rec=progress[q.id], body='';
-  var tag=q.tag?'<span class="code">'+q.tag+'</span>':'';
-  if(q.type==='mc'){
-    var answered=!!rec && typeof rec.choice==='number';
-    body+='<div class="opts" role="group" aria-label="Answer choices">';
-    q.opts.forEach(function(o,i){
-      var cls='opt', mark='';
-      if(answered){
-        if(i===q.correct){ cls+=' right'; mark='<span class="mark">✓ Correct answer</span>'; }
-        else if(i===rec.choice){ cls+=' wrong'; mark='<span class="mark">✗ Your answer</span>'; }
-      }
-      body+='<button class="'+cls+'" data-act="pick" data-qid="'+q.id+'" data-i="'+i+'"'+(answered?' disabled':'')+'><span class="letter">'+LETTERS[i]+'</span><span class="otext">'+o+'</span>'+mark+'</button>';
-    });
-    body+='</div>';
-    if(answered){
-      body+='<div class="fb '+(rec.correct?'ok':'no')+'" tabindex="-1" role="status"><p class="verdict">'+(rec.correct?'✓ Correct':'✗ Not quite')+'</p>'+q.why+'<button class="link" data-act="retry" data-qid="'+q.id+'">Try this one again</button></div>';
-    }
-  } else {
-    var revealed=!!rec && rec.revealed;
-    body+='<label class="wlabel" for="ta-'+q.id+'">Write your answer first, with numbers and a conclusion in context.</label>';
-    body+='<textarea id="ta-'+q.id+'" rows="5"'+(revealed?' disabled':'')+'>'+esc((rec&&rec.text)||'')+'</textarea>';
-    if(!revealed){
-      body+='<button class="btn" data-act="reveal" data-qid="'+q.id+'">Show model answer</button>';
-    } else {
-      body+='<div class="fb model" tabindex="-1"><p class="verdict">Model answer</p>'+q.model+'<p><strong>Check your answer. Did you include…</strong></p>';
-      q.checklist.forEach(function(c){ body+='<label class="chk"><input type="checkbox"> <span>'+c+'</span></label>'; });
-      if(rec.self){
-        body+='<p style="margin-top:10px">You marked this: <strong>'+(rec.self==='got'?'Got it':'Need to revisit')+'</strong></p>';
-      } else {
-        body+='<div class="btnrow"><button class="btn" data-act="self" data-v="got" data-qid="'+q.id+'">I got it</button><button class="btn ghost" data-act="self" data-v="revisit" data-qid="'+q.id+'">I need to revisit this</button></div>';
-      }
-      body+='<button class="link" data-act="retry" data-qid="'+q.id+'">Start this one over</button></div>';
+function other(m){ return m==='X' ? 'O' : 'X'; }
+function turnOf(qi){
+  const set = Math.floor(qi/3), p = qi%3;
+  const first = (set%2===0) ? 'X' : 'O';   // X first in Sets 1 and 3, O first in Set 2
+  return p===1 ? other(first) : first;
+}
+function checkWin(){
+  if(S.winner) return false;
+  for(const ln of LINES){
+    const [a,b,c]=ln;
+    if(S.board[a] && S.board[a]===S.board[b] && S.board[a]===S.board[c]){
+      S.winner=S.board[a]; S.winLine=ln; return true;
     }
   }
-  return '<article class="q" id="q-'+q.id+'" tabindex="-1"><div class="q-head"><span class="qnum">Question '+n+'</span>'+tag+'</div><div class="qtext">'+q.q+'</div>'+body+'</article>';
+  return false;
 }
+function mk(m){ return `<span class="mark-${m.toLowerCase()}">${m}</span>`; }
 
-/* ---------- widgets ---------- */
-function widgetTwoWay(root){
-  var mode='count';
-  root.innerHTML='<div class="w-head"><h3>Same data, two views</h3><div class="seg" role="group" aria-label="Chart type"><button data-m="count" aria-pressed="true">Counts</button><button data-m="pct" aria-pressed="false">Percents within each group</button></div></div>'+
-   '<div class="w-body two"><div class="scroll">'+EREADER+'</div><svg id="tw-svg" viewBox="0 0 420 285" role="img"></svg></div><p class="w-note" id="tw-note" aria-live="polite"></p>';
-  var svg=root.querySelector('#tw-svg'), note=root.querySelector('#tw-note');
-  function draw(){
-    var G=[{name:'Owns an e-reader',yes:42,no:18},{name:'No e-reader',yes:63,no:77}];
-    var top=34,H=190,base=top+H,maxV=mode==='count'?140:100,s='';
-    s+='<rect x="60" y="8" width="12" height="12" class="seg-yes"/><text x="78" y="18" class="lg">Reads weekly</text><rect x="180" y="8" width="12" height="12" class="seg-no"/><text x="198" y="18" class="lg">Doesn’t read weekly</text>';
-    s+='<line x1="52" y1="'+base+'" x2="405" y2="'+base+'" class="ax"/><line x1="52" y1="'+top+'" x2="52" y2="'+base+'" class="ax"/>';
-    var ticks=mode==='count'?[0,35,70,105,140]:[0,25,50,75,100];
-    ticks.forEach(function(t){ var y=base-(t/maxV)*H; s+='<line x1="48" y1="'+y+'" x2="52" y2="'+y+'" class="ax"/><text x="44" y="'+(y+4)+'" text-anchor="end" class="tk">'+t+(mode==='pct'?'%':'')+'</text>'; });
-    G.forEach(function(g,i){
-      var x=90+i*170,w=110,tot=g.yes+g.no;
-      var hy=mode==='count'?g.yes/maxV*H:g.yes/tot*H;
-      var hn=mode==='count'?g.no/maxV*H:g.no/tot*H;
-      var ly=mode==='count'?g.yes:fmtPct(g.yes/tot)+'%', ln=mode==='count'?g.no:fmtPct(g.no/tot)+'%';
-      s+='<rect x="'+x+'" y="'+(base-hy)+'" width="'+w+'" height="'+hy+'" class="seg-yes"/>';
-      s+='<rect x="'+x+'" y="'+(base-hy-hn)+'" width="'+w+'" height="'+hn+'" class="seg-no"/>';
-      s+='<text x="'+(x+w/2)+'" y="'+(base-hy/2+5)+'" class="sv">'+ly+'</text>';
-      s+='<text x="'+(x+w/2)+'" y="'+(base-hy-hn/2+5)+'" class="sv">'+ln+'</text>';
-      s+='<text x="'+(x+w/2)+'" y="'+(base+20)+'" class="lab">'+g.name+'</text><text x="'+(x+w/2)+'" y="'+(base+37)+'" class="tk" text-anchor="middle">(n = '+tot+')</text>';
-    });
-    svg.innerHTML=s;
-    svg.setAttribute('aria-label', mode==='count'?'Segmented bar chart of counts. Owners: 42 read weekly, 18 do not. Non-owners: 63 read weekly, 77 do not.':'Segmented bar chart of percents. Owners: 70 percent read weekly. Non-owners: 45 percent read weekly.');
-    note.innerHTML= mode==='count'
-     ? 'With counts, the bars have different heights because the groups have different sizes (60 owners, 140 non-owners). That makes the segments hard to compare.'
-     : 'With percents, each bar is 100% tall, so the segments compare fairly: 70% of owners read weekly versus 45% of non-owners. The segments don’t match, which is evidence of an association.';
-  }
-  root.querySelectorAll('[data-m]').forEach(function(b){ b.addEventListener('click',function(){ mode=b.dataset.m; root.querySelectorAll('[data-m]').forEach(function(x){ x.setAttribute('aria-pressed',x===b?'true':'false'); }); draw(); }); });
-  draw();
-}
-
-function widgetCells(root){
-  var D={cells:[[42,18],[63,77]],rows:['Owns an e-reader','No e-reader'],cols:['Reads weekly','Doesn’t read weekly'],rowT:[60,140],colT:[105,95],N:200,
-   rp:['own an e-reader','don’t own an e-reader'],cp:['read weekly','don’t read weekly']};
-  var mode='joint', sel={kind:'cell',r:0,c:0};
-  var modes=[['joint','Joint'],['marginal','Marginal'],['condRow','Conditional (by row)'],['condCol','Conditional (by column)']];
-  root.innerHTML='<div class="w-head"><h3>Click a number, see how it’s built</h3><div class="seg" role="group" aria-label="Type of relative frequency">'+
-    modes.map(function(m){ return '<button data-m="'+m[0]+'" aria-pressed="'+(m[0]===mode)+'">'+m[1]+'</button>'; }).join('')+'</div></div>'+
-    '<div class="scroll"><table class="tbl cells"><caption>Survey of 200 students. Click any number in the table.</caption><thead><tr><th scope="col"></th><th scope="col">'+D.cols[0]+'</th><th scope="col">'+D.cols[1]+'</th><th scope="col">Total</th></tr></thead><tbody id="cx-body"></tbody></table></div>'+
-    '<div class="keyline"><span><i class="sw n"></i>numerator</span><span><i class="sw d"></i>denominator</span></div><div class="w-out" id="cx-out" aria-live="polite"></div>';
-  var body=root.querySelector('#cx-body'), out=root.querySelector('#cx-out');
-  function val(kind,r,c){ if(kind==='cell') return D.cells[r][c]; if(kind==='row') return D.rowT[r]; if(kind==='col') return D.colT[c]; return D.N; }
-  function compute(){
-    var k=sel.kind,r=sel.r,c=sel.c;
-    if(mode==='joint'){ if(k!=='cell') return {ok:false,msg:'Joint relative frequencies use the four cells inside the table. Click one of them.'}; return {ok:true,num:['cell',r,c],den:['n',0,0],label:'Joint',sent:'of all 200 students '+D.rp[r]+' and '+D.cp[c]}; }
-    if(mode==='marginal'){ if(k==='row') return {ok:true,num:['row',r,0],den:['n',0,0],label:'Marginal',sent:'of all 200 students '+D.rp[r]}; if(k==='col') return {ok:true,num:['col',0,c],den:['n',0,0],label:'Marginal',sent:'of all 200 students '+D.cp[c]}; return {ok:false,msg:'Marginal relative frequencies use a total from the Total row or Total column. Click one of those totals (but not the grand total).'}; }
-    if(k!=='cell') return {ok:false,msg:'Conditional relative frequencies start from a cell inside the table. Click one of the four cells.'};
-    if(mode==='condRow') return {ok:true,num:['cell',r,c],den:['row',r,0],label:'Conditional (by row)',sent:'of the students who '+D.rp[r]+' also '+D.cp[c],pre:'Among those who '+D.rp[r]};
-    return {ok:true,num:['cell',r,c],den:['col',0,c],label:'Conditional (by column)',sent:'of the students who '+D.cp[c]+' also '+D.rp[r],pre:'Among those who '+D.cp[c]};
-  }
-  function draw(){
-    var res=compute(), h='';
-    function cls(kind,r,c){ if(!res.ok) return ''; var x=''; if(res.num[0]===kind&&(kind==='n'||res.num[1]===r&&res.num[2]===c)) x='num'; if(res.den[0]===kind&&(kind==='n'||res.den[1]===r&&res.den[2]===c)) x='den'; return x; }
-    function cell(kind,r,c){ var v=val(kind,r,c); return '<td class="'+cls(kind,r,c)+'"><button data-k="'+kind+'" data-r="'+r+'" data-c="'+c+'" aria-label="'+v+'">'+v+'</button></td>'; }
-    for(var r=0;r<2;r++){ h+='<tr><th scope="row">'+D.rows[r]+'</th>'+cell('cell',r,0)+cell('cell',r,1)+cell('row',r,0)+'</tr>'; }
-    h+='<tr><th scope="row">Total</th>'+cell('col',0,0)+cell('col',0,1)+cell('n',0,0)+'</tr>';
-    body.innerHTML=h;
-    if(!res.ok){ out.innerHTML='<p style="margin:0">'+res.msg+'</p>'; return; }
-    var n=val.apply(null,res.num), d=val.apply(null,res.den), v=n/d;
-    out.innerHTML='<div class="calc">'+res.label+': '+n+' ÷ '+d+' = '+v.toFixed(3)+' ('+fmtPct(v)+'%)</div><div>'+fmtPct(v)+'% '+res.sent+'.</div>';
-  }
-  root.querySelectorAll('[data-m]').forEach(function(b){ b.addEventListener('click',function(){ mode=b.dataset.m; root.querySelectorAll('[data-m]').forEach(function(x){ x.setAttribute('aria-pressed',x===b?'true':'false'); }); draw(); }); });
-  body.addEventListener('click',function(e){ var b=e.target.closest('button[data-k]'); if(!b) return; sel={kind:b.dataset.k,r:+b.dataset.r,c:+b.dataset.c}; draw(); var nb=body.querySelector('button[data-k="'+sel.kind+'"][data-r="'+sel.r+'"][data-c="'+sel.c+'"]'); if(nb) nb.focus(); });
-  draw();
-}
-
-function widgetSim(root){
-  var n=0,s=0,hist=[],show=false,last=null,MAXN=20000,TRUE=1-Math.pow(5/6,4);
-  root.innerHTML='<div class="w-head"><h3>Watch the law of large numbers</h3></div>'+
-   '<p>Random process: roll a die 4 times. Event: at least one of the four rolls is a 6. Each press runs complete trials and updates the running relative frequency.</p>'+
-   '<div class="btnrow"><button class="btn" data-n="1">+1 trial</button><button class="btn" data-n="10">+10</button><button class="btn" data-n="100">+100</button><button class="btn" data-n="1000">+1,000</button><button class="btn ghost" data-n="0">Reset</button></div>'+
-   '<label class="chk"><input type="checkbox" id="sim-show"> <span>Show the true probability, 1 − (5/6)<sup>4</sup> ≈ 0.518</span></label>'+
-   '<svg id="sim-svg" viewBox="0 0 520 270" role="img" aria-label="Line chart of the running relative frequency of success as the number of trials grows"></svg><div class="w-out" id="sim-out" aria-live="polite"></div>';
-  var svg=root.querySelector('#sim-svg'), out=root.querySelector('#sim-out');
-  function trial(){ var rolls=[0,0,0,0].map(function(){ return 1+Math.floor(Math.random()*6); }); var hit=rolls.indexOf(6)>=0; n++; if(hit) s++; hist.push(s/n); last={rolls:rolls,hit:hit}; }
-  function draw(){
-    var L=52,R=500,T=14,B=224,W=R-L,H=B-T;
-    var dom=Math.max(10,Math.pow(10,Math.ceil(Math.log10(Math.max(n,1)))));
-    function X(k){ return L+(Math.log10(k)/Math.log10(dom))*W; }
-    function Y(p){ return B-p*H; }
-    var g='<line x1="'+L+'" y1="'+B+'" x2="'+R+'" y2="'+B+'" class="ax"/><line x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+B+'" class="ax"/>';
-    [0,0.25,0.5,0.75,1].forEach(function(p){ g+='<text x="'+(L-6)+'" y="'+(Y(p)+4)+'" text-anchor="end" class="tk">'+p+'</text>'; });
-    for(var t=1;t<=dom;t*=10){ g+='<line x1="'+X(t)+'" y1="'+B+'" x2="'+X(t)+'" y2="'+(B+4)+'" class="ax"/><text x="'+X(t)+'" y="'+(B+17)+'" text-anchor="middle" class="tk">'+t.toLocaleString('en-US')+'</text>'; }
-    g+='<text x="'+((L+R)/2)+'" y="'+(B+36)+'" text-anchor="middle" class="tk">Number of trials (log scale)</text>';
-    if(show) g+='<line x1="'+L+'" y1="'+Y(TRUE)+'" x2="'+R+'" y2="'+Y(TRUE)+'" stroke="var(--orange)" stroke-width="2" stroke-dasharray="6 5"/><text x="'+(R-4)+'" y="'+(Y(TRUE)-6)+'" text-anchor="end" class="lg">true ≈ 0.518</text>';
-    if(n>0){
-      var step=Math.max(1,Math.floor(n/300)),pts=[];
-      for(var i=1;i<=n;i++){ if(i<=100||i%step===0||i===n) pts.push(X(i).toFixed(1)+','+Y(hist[i-1]).toFixed(1)); }
-      g+= n===1 ? '<circle cx="'+X(1)+'" cy="'+Y(hist[0])+'" r="4" fill="var(--blue-ink)"/>' : '<polyline points="'+pts.join(' ')+'" fill="none" stroke="var(--blue-ink)" stroke-width="2"/>';
-    }
-    svg.innerHTML=g;
-    if(n===0){ out.innerHTML='Press a button to run trials. Try +1 a few times, then +1,000.'; return; }
-    var h='<div class="calc">Trials: '+n.toLocaleString('en-US')+' · Successes: '+s.toLocaleString('en-US')+' · Estimate: '+s+' ÷ '+n+' = '+(s/n).toFixed(3)+'</div>';
-    h+='<div>Last trial: rolls '+last.rolls.join(', ')+' → '+(last.hit?'at least one 6 (success)':'no 6 (failure)')+'.</div>';
-    if(n>=MAXN) h+='<div>Reached the maximum of 20,000 trials. Press Reset to start over.</div>';
-    out.innerHTML=h;
-  }
-  root.querySelectorAll('[data-n]').forEach(function(b){ b.addEventListener('click',function(){
-    var k=+b.dataset.n;
-    if(k===0){ n=0;s=0;hist=[];last=null; } else { for(var i=0;i<k&&n<MAXN;i++) trial(); }
-    draw();
-  }); });
-  root.querySelector('#sim-show').addEventListener('change',function(e){ show=e.target.checked; draw(); });
-  draw();
-}
-
-var EV={
- sum7:{label:'Sum is 7',f:function(a,b){return a+b===7;}},
- ge10:{label:'Sum is at least 10',f:function(a,b){return a+b>=10;}},
- dbl:{label:'Doubles (both dice match)',f:function(a,b){return a===b;}},
- six:{label:'At least one die shows a 6',f:function(a,b){return a===6||b===6;}},
- odd:{label:'Sum is odd',f:function(a,b){return (a+b)%2===1;}},
- two:{label:'Sum is 2',f:function(a,b){return a+b===2;}},
- imp:{label:'Sum is 13 (impossible)',f:function(){return false;}},
- cert:{label:'Sum is between 2 and 12 (certain)',f:function(){return true;}}
-};
-function gridTable(cellFn){
-  var h='<div class="gridwrap"><table class="grid"><caption class="tk" style="text-align:left;caption-side:top">Rows: first die. Columns: second die. Each square is one of the 36 equally likely pairs.</caption><thead><tr><th></th>';
-  for(var c=1;c<=6;c++) h+='<th scope="col">'+c+'</th>';
-  h+='</tr></thead><tbody>';
-  for(var a=1;a<=6;a++){ h+='<tr><th scope="row">'+a+'</th>'; for(var b=1;b<=6;b++){ var r=cellFn(a,b); h+='<td class="'+r.cls+'">'+r.txt+'</td>'; } h+='</tr>'; }
-  return h+'</tbody></table></div>';
-}
-function evOptions(keys,sel){ return keys.map(function(k){ return '<option value="'+k+'"'+(k===sel?' selected':'')+'>'+EV[k].label+'</option>'; }).join(''); }
-
-function widgetDice1(root){
-  var keys=['sum7','ge10','dbl','six','odd','two','imp','cert'], cur='sum7', comp=false;
-  root.innerHTML='<div class="w-head"><h3>Two dice: a sample space you can see</h3></div>'+
-   '<div class="ctrl"><label for="d1-sel">Event E</label><select id="d1-sel">'+evOptions(keys,cur)+'</select><label class="chk" style="margin:0"><input type="checkbox" id="d1-comp"> <span>Highlight the complement (not E)</span></label></div>'+
-   '<div id="d1-grid"></div><div class="w-out" id="d1-out" aria-live="polite"></div>';
-  var gridEl=root.querySelector('#d1-grid'), out=root.querySelector('#d1-out');
-  function draw(){
-    var f=EV[cur].f,k=0;
-    gridEl.innerHTML=gridTable(function(a,b){ var inE=f(a,b); if(inE) k++; return {cls:inE?'in':(comp?'comp':''),txt:a+','+b}; });
-    var p=k/36,q=(36-k)/36;
-    out.innerHTML='<div class="calc">P(E) = '+k+'/36'+(k>0&&k<36&&gcd(k,36)>1?' = '+frac(k,36):'')+' ≈ '+p.toFixed(3)+'</div><div class="calc">P(not E) = 1 − '+k+'/36 = '+(36-k)+'/36'+((36-k)>0&&(36-k)<36&&gcd(36-k,36)>1?' = '+frac(36-k,36):'')+' ≈ '+q.toFixed(3)+'</div>'+
-      '<div>'+(k===0?'An impossible event has probability 0.':k===36?'A certain event has probability 1.':'The event and its complement together cover the whole sample space, so their probabilities add to 1.')+'</div>';
-  }
-  root.querySelector('#d1-sel').addEventListener('change',function(e){ cur=e.target.value; draw(); });
-  root.querySelector('#d1-comp').addEventListener('change',function(e){ comp=e.target.checked; draw(); });
-  draw();
-}
-
-function widgetDice2(root){
-  var keys=['sum7','dbl','ge10','two','six','odd'], A='sum7', B='dbl';
-  root.innerHTML='<div class="w-head"><h3>Do these two events overlap?</h3></div>'+
-   '<div class="ctrl"><label for="d2-a">Event A</label><select id="d2-a">'+evOptions(keys,A)+'</select><label for="d2-b">Event B</label><select id="d2-b">'+evOptions(keys,B)+'</select></div>'+
-   '<div class="keyline" style="margin:0 0 6px"><span><i class="sw" style="background:var(--blue-soft);box-shadow:inset 0 0 0 2px var(--blue-ink)"></i>A only</span><span><i class="sw" style="background:var(--orange-soft);box-shadow:inset 0 0 0 2px var(--orange)"></i>B only</span><span><i class="sw" style="background:var(--ink)"></i>both A and B</span></div>'+
-   '<div id="d2-grid"></div><div class="w-out" id="d2-out" aria-live="polite"></div>';
-  var gridEl=root.querySelector('#d2-grid'), out=root.querySelector('#d2-out');
-  function draw(){
-    var fa=EV[A].f,fb=EV[B].f,both=[],na=0,nb=0;
-    gridEl.innerHTML=gridTable(function(a,b){ var x=fa(a,b),y=fb(a,b); if(x)na++; if(y)nb++; if(x&&y){ both.push('('+a+', '+b+')'); return {cls:'ab',txt:a+','+b}; } return {cls:x?'a':(y?'b':''),txt:a+','+b}; });
-    var k=both.length,h='<div>A has '+na+' outcomes, B has '+nb+', and '+k+' are in both.</div><div class="calc">P(A ∩ B) = '+k+'/36'+(k>0?' ≈ '+(k/36).toFixed(3):'')+'</div>';
-    if(k===0) h+='<div><strong>Mutually exclusive:</strong> no outcome is in both, so P(A ∩ B) = 0.</div>';
-    else h+='<div><strong>Not mutually exclusive:</strong> '+both.join(', ')+(k>1?' are':' is')+' in both, so P(A ∩ B) is greater than 0.</div>';
-    out.innerHTML=h;
-  }
-  root.querySelector('#d2-a').addEventListener('change',function(e){ A=e.target.value; draw(); });
-  root.querySelector('#d2-b').addEventListener('change',function(e){ B=e.target.value; draw(); });
-  draw();
-}
-var WIDGETS={twoWay:widgetTwoWay,cells:widgetCells,sim:widgetSim,dice1:widgetDice1,dice2:widgetDice2};
-
-/* ---------- views ---------- */
-var state={view:'home',mode:'review'};
-var main=document.getElementById('main'), rail=document.getElementById('rail');
-
-function railHTML(){
-  var items=[{v:'home',n:'Home',t:'Overview'}].concat(TOPICS.map(function(t){ return {v:t.key,n:t.num,t:t.short}; })).concat([{v:'mx',n:'Mix',t:'Mixed review'}]);
-  var h='<div class="rail-title">Review Hub<span>Unit 2a (Part 1), AP Statistics</span></div><ul>';
-  items.forEach(function(it){
-    h+='<li><button class="rail-item" data-act="go" data-view="'+it.v+'"'+(state.view===it.v?' aria-current="page"':'')+' aria-label="'+it.n+' '+it.t+'"><span class="rn">'+it.n+'</span><span class="rt">'+it.t+'</span><span class="rp" data-prog="'+it.v+'"></span></button></li>';
-  });
-  return h+'</ul>';
-}
-function refreshStatus(){
-  TOPICS.concat([MIXED]).forEach(function(t){
-    var st=stats(t), el=document.querySelector('[data-prog="'+t.key+'"]'); if(el) el.textContent=st.done+'/'+st.total;
-    var hp=document.querySelector('[data-hprog="'+t.key+'"]'); if(hp) hp.textContent=st.done+' of '+st.total+' answered'+(st.done?' · '+st.correct+' correct':'');
-  });
-  var cur=state.view==='mx'?MIXED:TOPICS.filter(function(t){return t.key===state.view;})[0];
-  var s=document.getElementById('status');
-  if(cur&&s){ var st2=stats(cur); s.querySelector('.txt').textContent=st2.done+' of '+st2.total+' answered · '+st2.correct+' correct'; s.querySelector('.bar i').style.width=(st2.done/st2.total*100)+'%'; }
-}
-function homeHTML(){
-  var h='<div class="page"><h1 style="font-size:clamp(1.9rem,5vw,2.8rem);margin-bottom:6px">Review Hub: Unit 2a (Part 1)</h1>'+
-   '<p class="home-lede">Topics 2.1–2.5: two categorical variables, simulation, and the first rules of probability. Read the concept review, try the interactive, then practice.</p><div class="rows">';
-  TOPICS.forEach(function(t){ h+='<button class="row" data-act="go" data-view="'+t.key+'"><span class="big">'+t.num+'</span><span><h3>'+t.title+'</h3><p>'+t.blurb+'</p></span><span class="prog" data-hprog="'+t.key+'"></span></button>'; });
-  h+='<button class="row" data-act="go" data-view="mx"><span class="big">Mix</span><span><h3>Mixed review</h3><p>Choose the right idea for each situation, then apply it.</p></span><span class="prog" data-hprog="mx"></span></button></div>';
-  h+='<div class="callout"><p><strong>Show your work like the AP exam.</strong> A probability calculation should include an expression that shows the structure, the values from the problem substituted in, and the answer. The worked explanations in this hub follow that pattern.</p></div>';
-  h+='<p class="fine">Built from the AP Statistics Course and Exam Description, effective fall 2026 (Unit 2, topics 2.1–2.5). Your answers are saved only in this browser.</p>';
-  h+='<p><button class="link" data-act="reset">Reset my answers</button></p></div>';
-  return h;
-}
-function topicHeader(t){
-  var h='<header class="thead"><div class="tnum">'+t.num+'</div><div><h1>'+t.title+'</h1>';
-  if(t.objectives){ h+='<ul class="objs">'+t.objectives.map(function(o){ return '<li><span class="code">'+o.code+'</span>'+o.text+'</li>'; }).join('')+'</ul>'; }
-  return h+'</div></header>';
-}
-function tabsHTML(t){
-  return '<div class="tabs" role="group" aria-label="Section"><button data-act="mode" data-mode="review" aria-pressed="'+(state.mode==='review')+'">Concept review</button><button data-act="mode" data-mode="practice" aria-pressed="'+(state.mode==='practice')+'">Practice ('+t.questions.length+')</button></div>';
-}
-function statusHTML(){ return '<div class="status" id="status"><span class="txt"></span><span class="bar" aria-hidden="true"><i></i></span></div>'; }
-function navHTML(t){
-  var i=TOPICS.indexOf(t), h='<div class="nav">';
-  if(t.key==='mx') h+='<button class="btn ghost" data-act="go" data-view="home">Back to overview</button>';
+/* ---------- Rock Paper Scissors ---------- */
+function playRPS(choice){
+  const opts=['Rock','Paper','Scissors'];
+  const c=opts[Math.floor(Math.random()*3)];
+  const beats={Rock:'Scissors',Paper:'Rock',Scissors:'Paper'};
+  if(choice===c){ S.rpsMsg=`You both chose ${c}. It's a tie, so go again!`; }
+  else if(beats[choice]===c){ S.rpsMsg=`You chose ${choice} and the computer chose ${c}. You win! Pick your letter.`; S.phase='side'; }
   else {
-    var prev=i>0?TOPICS[i-1]:null, next=i<TOPICS.length-1?TOPICS[i+1]:null;
-    h+= prev?'<button class="btn ghost" data-act="go" data-view="'+prev.key+'">← '+prev.num+' '+prev.short+'</button>':'<span></span>';
-    h+= next?'<button class="btn" data-act="go" data-view="'+next.key+'">'+next.num+' '+next.short+' →</button>':'<button class="btn" data-act="go" data-view="mx">Mixed review →</button>';
+    S.rpsMsg=`You chose ${choice} and the computer chose ${c}. The computer wins.`;
+    const cp=Math.random()<.5?'X':'O'; S.opp=cp; S.me=other(cp);
+    S.rpsMsg+=` It picks to be Player ${cp}, so you are Player ${S.me}.`;
+    S.phase='side';
+  }
+  render();
+}
+function chooseSide(m){ S.me=m; S.opp=other(m); startGame(); }
+function startGame(){ S.phase='game'; nextTurn(); }
+
+/* ---------- Game flow ---------- */
+function nextTurn(){
+  S.sel=null; S.chosen=null; S.fb=null;
+  if(S.qi>=9){ S.phase='end'; render(); return; }
+  if(S.winner){ S.mode='practice'; render(); return; }
+  if(turnOf(S.qi)===S.me){ S.mode='pick'; render(); }
+  else { S.mode='comp'; render(); setTimeout(compMove,1200); }
+}
+function pickSquare(i){
+  if(S.mode!=='pick' || S.sel!==null || S.board[i]) return;
+  S.sel=i; render();
+}
+function choose(i){
+  if(S.chosen!==null && S.fb) return;
+  S.chosen=i; render();
+}
+function submitAnswer(){
+  if(S.chosen===null) return;
+  const q=Q[S.qi], ok=S.chosen===q.answer;
+  let won=false;
+  if(S.mode==='pick'){ S.board[S.sel]= ok ? S.me : S.opp; won=checkWin(); }
+  S.results.push({qi:S.qi, ok});
+  S.fb={who:'me', ok, justWon:won, practice:S.mode==='practice'};
+  S.mode='fb'; render();
+}
+function pickCell(){
+  const empty=[...Array(9).keys()].filter(i=>!S.board[i]);
+  const tryLine=(m)=>{
+    for(const [a,b,c] of LINES){
+      const v=[S.board[a],S.board[b],S.board[c]];
+      if(v.filter(x=>x===m).length===2 && v.includes(null)){
+        return [a,b,c][v.indexOf(null)];
+      }
+    }
+    return null;
+  };
+  let c=tryLine(S.opp); if(c!==null) return c;
+  c=tryLine(S.me); if(c!==null) return c;
+  if(empty.includes(4)) return 4;
+  const corners=[0,2,6,8].filter(i=>empty.includes(i));
+  if(corners.length) return corners[Math.floor(Math.random()*corners.length)];
+  return empty[Math.floor(Math.random()*empty.length)];
+}
+function compMove(){
+  const q=Q[S.qi];
+  const cell=pickCell(); S.sel=cell;
+  const ok=Math.random()<COMPUTER_ACCURACY;
+  let ans=q.answer;
+  if(!ok){ const w=[0,1,2,3].filter(i=>i!==q.answer); ans=w[Math.floor(Math.random()*w.length)]; }
+  S.board[cell]= ok ? S.opp : S.me;
+  const won=checkWin();
+  S.results.push({qi:S.qi, ok:null, comp:true});
+  S.fb={who:'comp', ok, ans, justWon:won};
+  S.mode='fb'; render();
+}
+function next(){ S.qi++; nextTurn(); window.scrollTo({top:0}); }
+
+/* ---------- Views ---------- */
+function histSVG(){
+  const W=440,H=290,ml=48,mr=14,mt=12,mb=50,pw=W-ml-mr,ph=H-mt-mb,ymax=26;
+  const unit=pw/10, yS=v=>mt+ph-(v/ymax)*ph;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Histogram of 100 simulated trials. Frequencies for 0 through 9 stamps: ${HIST.join(', ')}">`;
+  for(let v=0;v<=ymax;v+=2){
+    s+=`<line x1="${ml}" x2="${W-mr}" y1="${yS(v)}" y2="${yS(v)}" stroke="currentColor" opacity=".12"/>`;
+    s+=`<text x="${ml-6}" y="${yS(v)+4}" font-size="11" text-anchor="end" fill="currentColor">${v}</text>`;
+  }
+  HIST.forEach((f,i)=>{
+    const x=ml+i*unit+unit*0.0+unit*0.0; // bars centered on label
+    const bx=ml+(i+0.5-0.5)*unit;
+    if(f>0) s+=`<rect x="${bx}" y="${yS(f)}" width="${unit}" height="${yS(0)-yS(f)}" fill="#36bdb0" stroke="#1d2b2a" stroke-width="1"/>`;
+    s+=`<text x="${bx+unit/2}" y="${yS(0)+16}" font-size="12" text-anchor="middle" fill="currentColor">${i}</text>`;
+  });
+  s+=`<line x1="${ml}" x2="${ml}" y1="${mt}" y2="${yS(0)}" stroke="currentColor"/>`;
+  s+=`<line x1="${ml}" x2="${W-mr}" y1="${yS(0)}" y2="${yS(0)}" stroke="currentColor"/>`;
+  s+=`<text x="${ml+pw/2}" y="${H-8}" font-size="12" text-anchor="middle" fill="currentColor">Number of “Free Drink” Stamps</text>`;
+  s+=`<text transform="translate(13 ${mt+ph/2}) rotate(-90)" font-size="12" text-anchor="middle" fill="currentColor">Frequency</text>`;
+  return s+`</svg>`;
+}
+
+function boardHTML(interactive){
+  let h='<div class="board" role="grid" aria-label="Tic-Tac-Toe board">';
+  for(let i=0;i<9;i++){
+    const v=S.board[i];
+    const cls=['cell'];
+    if(v) cls.push(v.toLowerCase());
+    const canPick = interactive && S.mode==='pick' && S.sel===null && !v;
+    if(canPick) cls.push('open');
+    if(S.sel===i) cls.push('sel');
+    if(S.winLine && S.winLine.includes(i)) cls.push('win');
+    const label=`Row ${Math.floor(i/3)+1}, column ${i%3+1}, ${v?('marked '+v):'empty'}`;
+    h+=`<button class="${cls.join(' ')}" ${canPick?`onclick="pickSquare(${i})"`:'disabled'} aria-label="${label}">${v||(S.sel===i?'?':'')}</button>`;
   }
   return h+'</div>';
 }
-function topicHTML(t){
-  var h='<div class="page">'+topicHeader(t)+tabsHTML(t);
-  if(state.mode==='review'){
-    h+=t.review+'<div class="callout"><p><strong>Ready?</strong> Test yourself on '+t.num+'.</p><div class="btnrow"><button class="btn" data-act="mode" data-mode="practice">Go to practice</button></div></div>';
+
+function statusBar(){
+  const set=Math.floor(S.qi/3)+1;
+  const t = S.winner ? '' : (S.qi<9 ? `<span class="pill">${turnOf(S.qi)===S.me?'Your turn':'Computer’s turn'}</span>` : '');
+  return `<div class="status">
+    <div class="row"><span class="pill">Question ${S.qi+1} of 9</span><span class="pill">Set ${set}</span>${t}</div>
+    <div>You: ${mk(S.me)} &nbsp;·&nbsp; Computer: ${mk(S.opp)}</div></div>`;
+}
+
+function questionHTML(){
+  const q=Q[S.qi];
+  const fb=S.fb;
+  let h=`<div class="ctx">${SETS[q.set].ctx}</div>`;
+  h+=`<p class="qtext">${S.qi+1}. ${q.text}</p>`;
+  if(q.hist) h+=`<div class="hist">${histSVG()}<p class="small" style="text-align:center;margin:4px 0 0">Results of 100 simulated trials</p></div>`;
+  h+='<div class="choices">';
+  q.choices.forEach((c,i)=>{
+    let cls='choice', tag='';
+    if(!fb){ if(S.chosen===i) cls+=' picked'; }
+    else {
+      if(i===q.answer){ cls+=' correct'; tag='<span class="tag">✓ Correct answer</span>'; }
+      if(fb.who==='me' && i===S.chosen && i!==q.answer){ cls+=' wrong'; tag='<span class="tag">Your answer</span>'; }
+      if(fb.who==='me' && i===S.chosen && i===q.answer){ tag='<span class="tag">✓ Your answer</span>'; }
+      if(fb.who==='comp' && i===fb.ans){ if(i!==q.answer) cls+=' wrong'; tag=`<span class="tag">Computer’s answer${i===q.answer?' ✓':''}</span>`; }
+    }
+    const dis = (S.mode==='comp'||fb) ? 'disabled' : '';
+    h+=`<button class="${cls}" ${dis} onclick="choose(${i})"><span class="letter">(${L[i]})</span><span>${c}</span>${tag}</button>`;
+  });
+  h+='</div>';
+  if(!fb && S.mode!=='comp'){
+    h+=`<button class="btn" onclick="submitAnswer()" ${S.chosen===null?'disabled':''}>Submit answer</button>`;
+  }
+  if(fb) h+=feedbackHTML(q);
+  return h;
+}
+
+function feedbackHTML(q){
+  const fb=S.fb;
+  let msg;
+  if(fb.practice){
+    msg = fb.ok ? `<p><strong>Correct!</strong></p>` : `<p><strong>Not quite.</strong> The correct answer is (${L[q.answer]}).</p>`;
+  } else if(fb.who==='me'){
+    msg = fb.ok
+      ? `<p><strong>Correct!</strong> The square is yours (${mk(S.me)}).</p>`
+      : `<p><strong>Not quite.</strong> The correct answer is (${L[q.answer]}). The computer takes that square (${mk(S.opp)}).</p>`;
   } else {
-    h+=statusHTML()+'<p class="fine">Answer each question, then read the explanation. For written questions, write first, then compare with the model answer.</p>';
-    t.questions.forEach(function(q,i){ h+=qHTML(q,i+1); });
+    msg = fb.ok
+      ? `<p><strong>The computer answered (${L[fb.ans]}), which is correct.</strong> It takes the square (${mk(S.opp)}).</p>`
+      : `<p><strong>The computer answered (${L[fb.ans]}), which is incorrect.</strong> The correct answer is (${L[q.answer]}), so you get that square (${mk(S.me)}).</p>`;
   }
-  return h+navHTML(t)+'</div>';
-}
-function mixedHTML(){
-  var h='<div class="page"><header class="thead"><div class="tnum">Mix</div><div><h1>Mixed review</h1><ul class="objs"><li>Topics 2.1–2.5 together. Decide which idea fits, then apply it.</li></ul></div></header>'+statusHTML();
-  MIXED.questions.forEach(function(q,i){ h+=qHTML(q,i+1); });
-  return h+navHTML(MIXED)+'</div>';
-}
-function render(scroll){
-  rail.innerHTML=railHTML();
-  if(state.view==='home') main.innerHTML=homeHTML();
-  else if(state.view==='mx') main.innerHTML=mixedHTML();
-  else main.innerHTML=topicHTML(TOPICS.filter(function(t){return t.key===state.view;})[0]);
-  main.querySelectorAll('[data-widget]').forEach(function(w){ var f=WIDGETS[w.dataset.widget]; if(f) f(w); });
-  refreshStatus();
-  if(scroll!==false){ window.scrollTo(0,0); try{ main.focus({preventScroll:true}); }catch(e){} }
-}
-function commit(qid,noFocus){
-  saveProgress();
-  var item=QINDEX[qid], art=document.getElementById('q-'+qid);
-  if(art){ art.outerHTML=qHTML(item.q,item.n); }
-  refreshStatus();
-  var na=document.getElementById('q-'+qid); if(!na) return;
-  var fb=na.querySelector('.fb'); try{ (fb&&!noFocus?fb:na).focus({preventScroll:true}); }catch(e){}
-}
-document.addEventListener('click',function(e){
-  var t=e.target.closest('[data-act]'); if(!t) return;
-  var act=t.dataset.act, qid=t.dataset.qid;
-  if(act==='go'){ state.view=t.dataset.view; state.mode='review'; render(); }
-  else if(act==='mode'){ state.mode=t.dataset.mode; render(false); var tb=main.querySelector('.tabs'); if(tb) tb.scrollIntoView(); }
-  else if(act==='pick'){ var i=+t.dataset.i, q=QINDEX[qid].q; progress[qid]={choice:i,correct:i===q.correct}; commit(qid); }
-  else if(act==='retry'){ delete progress[qid]; commit(qid,true); }
-  else if(act==='reveal'){ var ta=document.getElementById('ta-'+qid); progress[qid]={revealed:true,text:ta?ta.value:''}; commit(qid); }
-  else if(act==='self'){ progress[qid]=Object.assign({},progress[qid],{self:t.dataset.v}); commit(qid); }
-  else if(act==='reset'){
-    if(t.dataset.armed){ progress={}; saveProgress(); render(); }
-    else { t.dataset.armed='1'; t.textContent='Click again to erase all my answers'; }
+  let h=`<div class="fb ${fb.ok?'good':'bad'}">${msg}<p>${q.explain}</p></div>`;
+  if(fb.justWon){
+    h+=`<div class="banner">Tic-Tac-Toe! ${S.winner===S.me?'You win! 🎉':'The computer wins this one.'}</div>`;
   }
-});
-render(false);
-})();
+  const last=S.qi+1>=9;
+  const label= last ? 'See results' : (S.winner ? (fb.justWon?'Finish the remaining questions':'Next question') : 'Next question');
+  h+=`<button class="btn" onclick="next()">${label}</button>`;
+  return h;
+}
+
+function gameView(){
+  let left=`<div class="card">${boardHTML(true)}
+    <p class="small" style="text-align:center;margin:10px 0 0">${S.winner?'Game over. Finish the questions for practice.':'Wrong answer? Your opponent gets the square.'}</p></div>`;
+  let right='<div class="card">';
+  if(S.mode==='pick' && S.sel===null){
+    right+=`<h2>Your turn</h2><p>Choose any empty square on the board. Then you will answer the question to try to claim it.</p><div class="ctx">${SETS[Q[S.qi].set].ctx}</div>`;
+  } else if(S.mode==='comp' && !S.fb){
+    right+=`<h2>Computer’s turn</h2><p>The computer is choosing a square and answering…</p>`;
+  } else if(S.mode==='practice' && !S.fb){
+    right+=`<h2>Finish the questions</h2>`+questionHTML();
+  } else {
+    right+=questionHTML();
+  }
+  right+='</div>';
+  return statusBar()+`<div class="grid">${left}${right}</div>`;
+}
+
+function rpsView(){
+  return `<div class="card rps">
+    <h2>How this works</h2>
+    <ul class="rules">
+      <li>Play Rock-Paper-Scissors against the computer. The winner chooses to be Player X or Player O.</li>
+      <li>Player X goes first in Set 1. Going first alternates for Sets 2 and 3.</li>
+      <li>On your turn, pick an empty square, then answer the question. Correct: the square is yours. Incorrect: the computer takes it.</li>
+      <li>On the computer’s turn, it picks a square and answers. If it gets it wrong, you get the square.</li>
+      <li>First to get three in a row (row, column, or diagonal) wins. If nobody does after all 9 questions, the player with the most squares wins.</li>
+      <li>If someone wins early, you will still finish the remaining questions for practice.</li>
+    </ul>
+  </div>
+  <div class="card rps">
+    <h2>Your name (optional)</h2>
+    <p><input type="text" id="nm" placeholder="First and last name" value="${S.name.replace(/"/g,'&quot;')}" oninput="S.name=this.value"></p>
+    <h2>Rock-Paper-Scissors</h2>
+    ${S.rpsMsg?`<p><strong>${S.rpsMsg}</strong></p>`:'<p>Choose one:</p>'}
+    <div class="row">
+      <button class="btn alt" onclick="playRPS('Rock')">🪨 Rock</button>
+      <button class="btn alt" onclick="playRPS('Paper')">📄 Paper</button>
+      <button class="btn alt" onclick="playRPS('Scissors')">✂️ Scissors</button>
+    </div></div>`;
+}
+
+function sideView(){
+  let h=`<div class="card"><h2>Rock-Paper-Scissors result</h2><p><strong>${S.rpsMsg}</strong></p>`;
+  if(S.me){
+    h+=`<p>Player X goes first in Set 1.</p><button class="btn" onclick="startGame()">Start the game</button>`;
+  } else {
+    h+=`<p>Player X goes first in Set 1.</p><div class="row">
+      <button class="btn" onclick="chooseSide('X')">I’ll be Player X (go first)</button>
+      <button class="btn alt" onclick="chooseSide('O')">I’ll be Player O</button></div>`;
+  }
+  return h+'</div>';
+}
+
+function endView(){
+  const mine=S.board.filter(v=>v===S.me).length, theirs=S.board.filter(v=>v===S.opp).length;
+  let headline, how;
+  if(S.winner){ headline = S.winner===S.me ? 'You won! 🎉' : 'The computer won this round.'; how='Tic-Tac-Toe'; }
+  else { headline = mine>theirs ? 'You won! 🎉' : 'The computer won this round.'; how=`No Tic-Tac-Toe, so most squares wins (you ${mine}, computer ${theirs})`; }
+  const mineRes=S.results.filter(r=>!r.comp);
+  const right=mineRes.filter(r=>r.ok).length;
+  let list='';
+  mineRes.forEach(r=>{
+    list+=`<li>Question ${r.qi+1}: ${r.ok?'✓ Correct':`✗ Incorrect (correct answer: ${L[Q[r.qi].answer]})`}</li>`;
+  });
+  return `<div class="card res">
+    <h2>${S.name?S.name+' — ':''}Results</h2>
+    <p><strong>${headline}</strong> <span class="small">${how}</span></p>
+    <div style="margin:12px 0">${boardHTML(false)}</div>
+    <p><strong>Questions you answered correctly: ${right} of ${mineRes.length}</strong></p>
+    <ul>${list}</ul>
+    <p class="small">Questions the computer answered are not counted in your score. Take a screenshot or print this page to show your teacher.</p>
+    <div class="row noprint">
+      <button class="btn" onclick="window.print()">Print this page</button>
+      <button class="btn alt" onclick="reset(S.name);render()">Play again</button>
+    </div></div>`;
+}
+
+function render(){
+  const app=document.getElementById('app');
+  if(S.phase==='rps') app.innerHTML=rpsView();
+  else if(S.phase==='side') app.innerHTML=sideView();
+  else if(S.phase==='end') app.innerHTML=endView();
+  else app.innerHTML=gameView();
+}
+
+reset(); render();
 </script>
 </body>
 </html>
